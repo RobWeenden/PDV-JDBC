@@ -1,0 +1,107 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="resources/css/mainProd.css" media="all">
+<title>CADASTRAR PRODUTO</title>
+</head>
+<body>
+	   <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 ">
+        <a href="acessoliberado.jsp"><img src="resources/img/back.png" title="RETORNAR" width="50px"></a>
+        <a href="index.jsp"><img src="resources/img/exit.png" title="HOME" width="50px"></a>
+        <div class="input-group">
+            <h2 class="title">CADASTRAR PRODUTO</h2>
+            <div class="wrapper">
+
+                <form action="salvarProduto" method="post" id="formUser" onsubmit="return validarCampos()?true:false;">
+                    <table class="table">
+
+                        <tr>
+                            <td>ID:</td>
+                            <td><input type="text" name="id" id="id" readonly="readonly" class="input--style-4" value="${prod.id}"></td>
+                        </tr>
+                        <tr>
+                            <td>NOME:</td>
+                            <td><input type="text" name="nome" id="nome" placeholder="" autocomplete="off"
+                                    class="input--style-4" value="${prod.nome}"/></td>
+                        </tr>
+                        <tr>
+                            <td>QUANTIDADE:</td>
+                            <td><input type="text" name="quantidade" id="quantidade" placeholder=""
+                                    class="input--style-4"  value="${prod.quantidade}"/></td>
+                        </tr>
+                        <tr>
+                            <td>VALOR:</td>
+                            <td><input type="text" name="valor" id="valor" placeholder="" autocomplete="off"
+                                    class="input--style-4" value="${prod.valor}"/></td>
+                        </tr>
+                        <tr>
+
+                            <td colspan="2"><input type="submit" value="SALVAR" class="btn btn--color" />
+                                <input type="submit" value="CANCELAR"
+                                    onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'"
+                                    class="btn btn--color btn2" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="page-wrapper page-wrapper-lb bg-gra-02 p-t-130-1 p-b-100 font-poppins-tb">
+        <h2 class="title-tb-msg">${msg}</h2>
+        <h2 class="title">PRODUTOS CADASTRADOS</h2>
+
+        <table class="tb_Users table">
+            <tr style="color:#fff; font-size:15pt;">
+                <th>ID</th>
+                <th>NOME</th>
+                <th>QUANTIDADE</th>
+                <th>VALOR</th>
+                <th>EDITAR</th>
+                <th>DELETAR</th>
+            </tr>
+            <c:forEach items="${produtos}" var="prod">
+                <tr style="color:#FFED87; font-size:12pt;">
+                    <td>
+                        <c:out value="${prod.id}"></c:out>
+                    </td>
+                    <td>
+                        <c:out value="${prod.nome}"></c:out>
+                    </td>
+                    <td>
+                        <c:out value="${prod.quantidade}"></c:out>
+                    </td>
+                    <td>
+                        <c:out value="${prod.valor}"></c:out>
+                    </td>
+                    <td><a href="salvarProduto?acao=update&prod=${prod.id}"><img src="resources/img/editi.png"
+                                width="60px"></a></td>
+                    <td><a href="salvarProduto?acao=delete&prod=${prod.id}"><img src="resources/img/del.png"
+                                width="60px"></a></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <script type="text/javascript">
+        function validarCampos() {
+            if (document.getElementById("nome").value == '') {
+                alert("Informe o Nome!");
+                return false;
+            } else if (document.getElementById("quantidade").value == '') {
+                alert("Informe a Quantidade!");
+                return false;
+            } else if (document.getElementById("valor").value == '') {
+                alert("Informe o Valor!");
+                return false;
+            }
+            return true;
+        }
+
+
+    </script>
+</body>
+</html>
