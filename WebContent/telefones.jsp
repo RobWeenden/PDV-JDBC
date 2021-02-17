@@ -18,15 +18,27 @@
 					<table>
 						<tr>
 							<td>USER:</td>
-							<td><input type="text" name="id" id="id" readonly="readonly" class="input--style-4" value="${users}"></td>
+							<td><input type="text" name="id" id="id" readonly="readonly" class="input--style-4" value="${userEscolhido.id}"></td>
 							<td>NOME:</td>
-							<td><input type="text" name="nome" id="nome" class="input--style-4"  value="${nomeUser}"></td>
+							<td><input type="text" name="nome" id="nome" readonly="readonly" class="input--style-4"  value="${userEscolhido.nome}"></td>
 						</tr>
-					
 						<tr>
-							<td colspan="2"><input type="submit" value="SALVAR" class="btn btn--color" /></td>
-
-							<td colspan="2"><input type="submit" value="CANCELAR" class="btn btn--color btn2" onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'" />
+							<td>NÚMERO:</td>
+							<td><input type="text" name="numero" id="numero" class="input--style-4"></td>
+							<td>TIPO:</td>
+							
+							<td>
+								<select name="tipo" id="tipo" class="input--style-4">
+									<option>Residencial</option>
+									<option>Recado</option>
+									<option>Celular</option>
+								</select>
+							
+							</td>
+						</tr>
+						
+						<tr>
+							<td colspan="4" rowspan="2"><input type="submit" value="SALVAR" class="btn btn--color" /></td>
 						</tr>
 					</table>
 				</form>
@@ -50,7 +62,7 @@
 					<td><c:out value="${fone.id}"></c:out></td>
 					<td><c:out value="${fone.numero}"></c:out></td>
 					<td><c:out value="${fone.tipo}"></c:out></td>
-					<td><a href="salvarUsuario?acao=delete&users=${fone.id}"><img src="resources/img/del.png" width="60px"></a></td>
+					<td><a href="salvarTelefones?acao=deleteFone&foneId=${fone.id}"><img src="resources/img/del.png" width="60px"></a></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -58,19 +70,13 @@
 
 	<script type="text/javascript">
 		function validarCampos() {
-			if (document.getElementById("login").value == '') {
-				alert("Informe o Login!");
+			if (document.getElementById("numero").value == '') {
+				alert("Informe o Número!");
 				return false;
-			} else if (document.getElementById("senha").value == '') {
-				alert("Informe a Senha!");
+			} else if (document.getElementById("tipo").value == '') {
+				alert("Informe o Tipo!");
 				return false;
-			} else if (document.getElementById("nome").value == '') {
-				alert("Informe o Nome!");
-				return false;
-			} else if (document.getElementById("telefone").value == '') {
-				alert("Informe o Telefone!");
-				return false;
-			}
+			} 
 			return true;
 		}
 		
