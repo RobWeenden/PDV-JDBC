@@ -10,8 +10,18 @@ import java.util.List;
 import beans.TelefoneBeans;
 import connection.SingleConnection;
 
+/**
+ * Classe TelefoneDao
+ * Classe que provê os metodos e validações
+ * Para manipular dados, acesso no BD
+ * @author ritim
+ *
+ */
 public class TelefoneDao {
 
+	/**
+	 * Recebe o Objeto connection da Classe Connection como Atributo de Classe
+	 */
 	private Connection connection;
 
 	/**

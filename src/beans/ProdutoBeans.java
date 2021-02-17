@@ -1,5 +1,11 @@
 package beans;
 
+/**
+ * Classe ProdutoBeans
+ * Classe que provê o modelo de Objeto
+ * @author ritim
+ *
+ */
 public class ProdutoBeans {
 	
 	private Long id;

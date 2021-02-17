@@ -1,5 +1,11 @@
 package beans;
 
+/**
+ * Classe TelefoneBeans
+ * Classe que provê o modelo de Objeto
+ * @author ritim
+ *
+ */
 public class TelefoneBeans {
 	private Long id;
 	private String numero;

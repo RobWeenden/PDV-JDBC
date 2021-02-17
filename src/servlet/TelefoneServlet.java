@@ -53,7 +53,7 @@ public class TelefoneServlet extends HttpServlet {
 			request.setAttribute("userEscolhido", usuarioBeans);
 			
 
-			RequestDispatcher view = request.getRequestDispatcher("telefones.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
 			request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
 			view.forward(request, response);
 			
@@ -63,7 +63,7 @@ public class TelefoneServlet extends HttpServlet {
 				String foneId = request.getParameter("foneId");
 				telefoneDao.deleteTel(foneId);
 				
-				RequestDispatcher view = request.getRequestDispatcher("telefones.jsp");
+				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
 				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
 				request.setAttribute("msg", "Removido com Sucesso!!");
 				view.forward(request, response);
@@ -98,7 +98,7 @@ public class TelefoneServlet extends HttpServlet {
 			request.setAttribute("userEscolhido", usuarioBeans);
 			
 			
-			RequestDispatcher view = request.getRequestDispatcher("telefones.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
 			request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
 			request.setAttribute("msg", "Salvo com Sucesso!!");
 			view.forward(request, response);

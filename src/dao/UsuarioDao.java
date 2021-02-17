@@ -106,10 +106,17 @@ public class UsuarioDao {
 	 */
 	public void delete(String id) {
 		try {
-			String sql = "DELETE FROM usuario WHERE id =" + id;
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.execute();
-
+			String sqlFone = "DELETE FROM telefone WHERE usuario = "+id;//Excluir Telefone que está Relacionado com o Usuario	
+			String sqlUser = "DELETE FROM usuario WHERE id =" + id; //Excluir Usuario Após Telefone ser Excluido
+			
+			PreparedStatement statement = connection.prepareStatement(sqlFone);//Telefone(TABELA FILHO)
+			
+			statement.executeUpdate();
+			connection.commit();
+			
+			statement = connection.prepareStatement(sqlUser);//Usuario(TABELA PAI)
+			statement.executeUpdate();
+			
 			connection.commit();
 		} catch (SQLException e) {
 			try {
