@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="resources/css/mainUsers.css" media="all">
@@ -18,7 +18,7 @@
 		<div class="input-group">
 			<h2 class="title">CADASTRAR USUARIO</h2>
 			<div class="wrapper">
-				<form action="salvarUsuario" method="post" id="formUser" onsubmit="return validarCampos()? true:false;">
+				<form action="salvarUsuario" method="post" id="formUser" onsubmit="return validarCampos()? true:false;" enctype="multipart/form-data">
 					<table>
 						<tr>
 							<td>ID:</td>
@@ -57,6 +57,13 @@
 							<td>IBGE:</td>
 							<td><input type="text" name="ibge" id="ibge" class="input--style-4" value="${users.ibge}"></td>
 
+						</tr>
+						<tr>
+							<td>Foto:</td>
+							<td>
+								<input type="file" name="foto" id="foto"  class="input--style-4">
+							</td>
+						
 						</tr>
 						<tr>
 							<td colspan="2"><input type="submit" value="SALVAR" class="btn btn--color" /></td>

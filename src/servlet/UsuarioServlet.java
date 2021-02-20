@@ -115,7 +115,24 @@ public class UsuarioServlet extends HttpServlet {
 				usuarioBeans.setCidade(cidade);
 				usuarioBeans.setEstado(estado);
 				usuarioBeans.setIbge(ibge);
-				
+
+				/*
+				 * Inicio File upload de imagens e pdf
+				 */
+//					if(ServletFileUpload.isMultipartContent(request)) {
+//						List<FileItem> fileItemIs = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+//						
+//						for (FileItem fileItem : fileItemIs) {
+//							if(fileItem.getFieldName().equals("foto")) {
+//								String foto = new Base64().encodeBase64String(fileItem.get());
+//								System.out.println(foto);
+//							}
+//						}
+//					}
+				/*
+				 * Fim File upload de imagens e pdf
+				 */
+
 				if (login == null || login.isEmpty()) {
 					request.setAttribute("msg", "Login deve ser Informado!!");
 					request.setAttribute("users", usuarioBeans);
@@ -139,34 +156,38 @@ public class UsuarioServlet extends HttpServlet {
 				} else if (id == null || id.isEmpty() && !usuarioDao.validarSenha(senha)) {// SENHA EXISTENTE
 					request.setAttribute("msg", "Esta Senha ja existi!!");
 					request.setAttribute("users", usuarioBeans);
-					
+
 				} else if (id == null
-						|| id.isEmpty() && usuarioDao.validarLogin(login) && usuarioDao.validarSenha(senha)) {//REALIZAR O CADASTRO DO USUARIO
+						|| id.isEmpty() && usuarioDao.validarLogin(login) && usuarioDao.validarSenha(senha)) {// REALIZAR
+																												// O
+																												// CADASTRO
+																												// DO
+																												// USUARIO
 
 					usuarioDao.create(usuarioBeans);
 					request.setAttribute("msg", "Salvo com Sucesso!!");
 
-				} else if (id != null && !id.isEmpty()) {//INSERIR E VALIDAR UPDATE
+				} else if (id != null && !id.isEmpty()) {// INSERIR E VALIDAR UPDATE
 					usuarioDao.update(usuarioBeans);
 					request.setAttribute("msg", "Atualizado com Sucesso!!");
-					
-					/*****REALIZAR A LIBERAÇÃO DA LOGICA ABAIXO CASO DESEJAR QUE NA ATUALIZAÇÃO 
-					 * DOS DADOS DO USUARIOS SÓ POSSA SER ALTERADO CASO O LOGIN OU SENHA NÃO EXITA NO SISTEMA
-					 * CASO DESEJAR REMOVER AS LINHA DE CODIGO 150 E 151
-					 */
-					
-/*					if (!usuarioDao.validarLogin(login)) {//VALIDAR LOGIN EXISTENTE
-						request.setAttribute("msg", "Este Login ja existi!!");
-						request.setAttribute("users", usuarioBeans);
 
-					} else if (!usuarioDao.validarSenha(senha)) {//VALIDAR SENHA EXISTENTE
-						request.setAttribute("msg", "Esta Senha ja existi!!");
-						request.setAttribute("users", usuarioBeans);
-					}*
-					else {//REALIZAR UPDATE DO USUARIO
-						usuarioDao.update(usuarioBeans);
-						request.setAttribute("msg", "Atualizado com Sucesso!!");
-					}*/
+					/*****
+					 * REALIZAR A LIBERAÇÃO DA LOGICA ABAIXO CASO DESEJAR QUE NA ATUALIZAÇÃO DOS
+					 * DADOS DO USUARIOS SÓ POSSA SER ALTERADO CASO O LOGIN OU SENHA NÃO EXITA NO
+					 * SISTEMA CASO DESEJAR REMOVER AS LINHA DE CODIGO 150 E 151
+					 */
+
+					/*
+					 * if (!usuarioDao.validarLogin(login)) {//VALIDAR LOGIN EXISTENTE
+					 * request.setAttribute("msg", "Este Login ja existi!!");
+					 * request.setAttribute("users", usuarioBeans);
+					 * 
+					 * } else if (!usuarioDao.validarSenha(senha)) {//VALIDAR SENHA EXISTENTE
+					 * request.setAttribute("msg", "Esta Senha ja existi!!");
+					 * request.setAttribute("users", usuarioBeans); }* else {//REALIZAR UPDATE DO
+					 * USUARIO usuarioDao.update(usuarioBeans); request.setAttribute("msg",
+					 * "Atualizado com Sucesso!!"); }
+					 */
 				}
 
 				RequestDispatcher dispatcher = request.getRequestDispatcher("cadastroUsuario.jsp");
