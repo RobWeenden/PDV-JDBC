@@ -84,6 +84,7 @@
 			<tr style="color: #fff; font-size: 15pt;">
 				<th>ID</th>
 				<th>LOGIN</th>
+				<th>IMAGEM</th>
 				<th>NOME</th>
 				<th>TELEFONE</th>
 				<th>CEP</th>
@@ -100,6 +101,7 @@
 				<tr style="color: #FFED87; font-size: 12pt;">
 					<td><c:out value="${users.id}"></c:out></td>
 					<td><c:out value="${users.login}"></c:out></td>
+					<td><img src='<c:out value="${users.tempFotoUser}"></c:out>' width="60px"> </td>
 					<td><c:out value="${users.nome}"></c:out></td>
 					<td><c:out value="${users.telefone}"></c:out></td>
 					<td><c:out value="${users.cep}"></c:out></td>

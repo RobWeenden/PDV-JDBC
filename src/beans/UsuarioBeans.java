@@ -21,6 +21,17 @@ public class UsuarioBeans {
 	private String fotoBase64;
 	private String contentType;
 	
+	private String tempFotoUser;
+	
+	/**
+	 * Metodo getTempFotoUser()
+	 * Responsavel por concartenar as String da Imagem e Pdf
+	 * @return
+	 */
+	public String getTempFotoUser() {
+		tempFotoUser = "data:"+contentType+";base64, "+fotoBase64;
+		return tempFotoUser;
+	}
 	
 	
 	public String getFotoBase64() {
