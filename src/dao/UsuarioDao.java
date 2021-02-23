@@ -39,7 +39,7 @@ public class UsuarioDao {
 	 */
 	public void create(UsuarioBeans usuario) {
 		try {
-			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge) VALUES(?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, fotobase64, contenttype) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getLogin());
 			statement.setString(2, usuario.getSenha());
@@ -51,6 +51,8 @@ public class UsuarioDao {
 			statement.setString(8, usuario.getCidade());
 			statement.setString(9, usuario.getEstado());
 			statement.setString(10, usuario.getIbge());
+			statement.setString(11, usuario.getFotoBase64());
+			statement.setString(12, usuario.getContentType());
 			statement.execute();
 			
 			connection.commit();
@@ -90,6 +92,8 @@ public class UsuarioDao {
 			usuarios.setCidade(resultSet.getString("cidade"));
 			usuarios.setEstado(resultSet.getString("estado"));
 			usuarios.setIbge(resultSet.getString("ibge"));
+			usuarios.setFotoBase64(resultSet.getString("fotobase64"));
+			usuarios.setContentType(resultSet.getString("contenttype"));
 			
 			usuarioLista.add(usuarios);
 		}
