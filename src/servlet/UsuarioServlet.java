@@ -1,11 +1,14 @@
 package servlet;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.buf.UDecoder;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.codec.binary.Base64;
 
@@ -44,7 +48,7 @@ public class UsuarioServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());// !IMPORTANTE REMOVER ESTA LINHA PARA UTILIZAR response.getOutputStream();
 		try {
 
 			String acao = request.getParameter("acao");
@@ -69,6 +73,30 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				view.forward(request, response);
+				
+			}else if(acao.equalsIgnoreCase("download")) {
+				UsuarioBeans usuarioBeans = usuarioDao.consultar(users);
+				if(usuarioBeans != null) {
+					response.setHeader("Content-Disposition", "attachment;filename=imagem."+ usuarioBeans.getContentType().split("\\/")[1]);
+					
+					/*Converte a base64 da imagem do banco para byte[]*/
+					byte[] imageFotoBytes = new Base64().decodeBase64(usuarioBeans.getFotoBase64());
+					
+					/*Inserido os bytes codificados em um objeto de entrada para processamento*/
+					InputStream is = new ByteArrayInputStream(imageFotoBytes);
+					
+					/*Inicio da resposta para o Browser*/
+					int read = 0;//inicializar o controle do fluxo
+					byte[] bytes = new byte[1024];
+					OutputStream os = response.getOutputStream();
+					
+					while((read = is.read(bytes)) != -1 ) {
+						os.write(bytes, 0, read);
+					}
+					os.flush();//finalizar
+					os.close();//fechar o processo/fluxo
+					
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -191,6 +191,8 @@ public class UsuarioDao {
 			usuario.setCidade(resultSet.getString("cidade"));
 			usuario.setEstado(resultSet.getString("estado"));
 			usuario.setIbge(resultSet.getString("ibge"));
+			usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			usuario.setContentType(resultSet.getString("contenttype"));
 
 			return usuario;
 		}

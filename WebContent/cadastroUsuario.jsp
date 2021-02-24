@@ -60,8 +60,9 @@
 						</tr>
 						<tr>
 							<td>Foto:</td>
-							<td>
-								<input type="file" name="foto" id="foto"  class="input--style-4">
+							<td colspan="2">
+								<input type="file" name="foto" id="foto"  class="input--style-4 ">
+								
 							</td>
 						
 						</tr>
@@ -101,7 +102,7 @@
 				<tr style="color: #FFED87; font-size: 12pt;">
 					<td><c:out value="${users.id}"></c:out></td>
 					<td><c:out value="${users.login}"></c:out></td>
-					<td><img src='<c:out value="${users.tempFotoUser}"></c:out>' width="60px"> </td>
+					<td><a href="salvarUsuario?acao=download&users=${users.id}"><img src='<c:out value="${users.tempFotoUser}"></c:out>' width="60px"></a></td>
 					<td><c:out value="${users.nome}"></c:out></td>
 					<td><c:out value="${users.telefone}"></c:out></td>
 					<td><c:out value="${users.cep}"></c:out></td>
