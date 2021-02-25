@@ -77,13 +77,26 @@ public class UsuarioServlet extends HttpServlet {
 			}else if(acao.equalsIgnoreCase("download")) {
 				UsuarioBeans usuarioBeans = usuarioDao.consultar(users);
 				if(usuarioBeans != null) {
-					response.setHeader("Content-Disposition", "attachment;filename=imagem."+ usuarioBeans.getContentType().split("\\/")[1]);
 					
-					/*Converte a base64 da imagem do banco para byte[]*/
-					byte[] imageFotoBytes = new Base64().decodeBase64(usuarioBeans.getFotoBase64());
+					String contentType = "";
+					byte[] fileBytes = null;
+					String tipo = request.getParameter("tipo");
+					
+					if(tipo.equalsIgnoreCase("imagem")) {
+						contentType = usuarioBeans.getContentType();
+						/*Converte a base64 da imagem do banco para byte[]*/
+						fileBytes = new Base64().decodeBase64(usuarioBeans.getFotoBase64());
+						
+					}else if(tipo.equalsIgnoreCase("curriculo")){
+						contentType = usuarioBeans.getContentTypeCurriculo();
+						/*Converte a base64 da imagem do banco para byte[]*/
+						fileBytes = new Base64().decodeBase64(usuarioBeans.getCurriculoBase64());
+					}
+					
+					response.setHeader("Content-Disposition", "attachment;filename=arquivo."+ contentType.split("\\/")[1]);
 					
 					/*Inserido os bytes codificados em um objeto de entrada para processamento*/
-					InputStream is = new ByteArrayInputStream(imageFotoBytes);
+					InputStream is = new ByteArrayInputStream(fileBytes);
 					
 					/*Inicio da resposta para o Browser*/
 					int read = 0;//inicializar o controle do fluxo
@@ -158,11 +171,22 @@ public class UsuarioServlet extends HttpServlet {
 				if(ServletFileUpload.isMultipartContent(request)) {
 					
 					Part imagemFoto = request.getPart("foto");
+					if(imagemFoto != null) {
 					
 					String fotoBase64 = new Base64().encodeBase64String(converteStreamParaByte(imagemFoto.getInputStream()));
 					usuarioBeans.setFotoBase64(fotoBase64);
 					usuarioBeans.setContentType(imagemFoto.getContentType());
 					
+					}
+					
+					/*Processar o PDF*/
+					Part curriculoPdf = request.getPart("curriculo");
+					if(curriculoPdf != null) {
+						
+						String curriculoBase64 = new Base64().encodeBase64String(converteStreamParaByte(curriculoPdf.getInputStream()));
+						usuarioBeans.setCurriculoBase64(curriculoBase64);
+						usuarioBeans.setContentTypeCurriculo(curriculoPdf.getContentType());
+					}
 				}
 
 				/*

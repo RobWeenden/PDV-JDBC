@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+<meta charset="ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="resources/css/mainUsers.css" media="all">
 <title>CADASTRAR USUARIO</title>
 
@@ -64,6 +64,10 @@
 								<input type="file" name="foto" id="foto"  class="input--style-4 ">
 								
 							</td>
+							<td>Curriculo:</td>
+							<td>
+								<input type="file" name="curriculo" id="curriculo"  class="input--style-4 ">
+							</td>
 						
 						</tr>
 						<tr>
@@ -86,6 +90,7 @@
 				<th>ID</th>
 				<th>LOGIN</th>
 				<th>IMAGEM</th>
+				<th>CURRICULO</th>
 				<th>NOME</th>
 				<th>TELEFONE</th>
 				<th>CEP</th>
@@ -102,7 +107,8 @@
 				<tr style="color: #FFED87; font-size: 12pt;">
 					<td><c:out value="${users.id}"></c:out></td>
 					<td><c:out value="${users.login}"></c:out></td>
-					<td><a href="salvarUsuario?acao=download&users=${users.id}"><img src='<c:out value="${users.tempFotoUser}"></c:out>' width="60px"></a></td>
+					<td><a href="salvarUsuario?acao=download&tipo=imagem&users=${users.id}"><img src='<c:out value="${users.tempFotoUser}"></c:out>' width="60px"></a></td>
+					<td><a href="salvarUsuario?acao=download&tipo=curriculo&users=${users.id}">Curriculo</a></td>
 					<td><c:out value="${users.nome}"></c:out></td>
 					<td><c:out value="${users.telefone}"></c:out></td>
 					<td><c:out value="${users.cep}"></c:out></td>
@@ -152,14 +158,14 @@
                     $("#ibge").val(dados.ibge);
                 } //end if.
                 else {
-                    //CEP pesquisado n√£o foi encontrado.
+                    //CEP pesquisado n„o foi encontrado.
                     $("#cep").val('');
                     $("#rua").val('');
                     $("#bairro").val('');
                     $("#cidade").val();
                     $("#estado").val('');
                     $("#ibge").val('');
-                    alert("CEP n√£o encontrado.");
+                    alert("CEP n„o encontrado.");
                 }
             });
 		}
