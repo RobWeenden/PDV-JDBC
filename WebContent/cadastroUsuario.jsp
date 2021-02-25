@@ -62,11 +62,15 @@
 							<td>Foto:</td>
 							<td colspan="2">
 								<input type="file" name="foto" id="foto"  class="input--style-4 ">
+								<input type="hidden" name="fotoTemp"  value="${users.fotoBase64}" readonly="readonly" />
+								<input type="hidden" name="contentTypeTemp"  value="${users.contentType}" readonly="readonly"/>
 								
 							</td>
 							<td>Curriculo:</td>
 							<td>
 								<input type="file" name="curriculo" id="curriculo"  class="input--style-4 ">
+								<input type="hidden" name="curriculoTemp"  value="${users.curriculoBase64}" readonly="readonly"/>
+								<input type="hidden" name="contentTypeTempCurriculo" value="${users.contentTypeCurriculo}" readonly="readonly"/>
 							</td>
 						
 						</tr>

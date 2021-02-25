@@ -143,8 +143,11 @@ public class UsuarioDao {
 	 */
 	public void update(UsuarioBeans usuarioUpdate) {
 		try {
-			String sql = "UPDATE usuario SET login = ?, senha = ?, nome = ?, telefone = ?, cep = ?, rua = ?, bairro = ?, "+
-		"cidade = ?, estado = ?, ibge = ? WHERE id = "+ usuarioUpdate.getId();
+			String sql = "UPDATE usuario SET login = ?, senha = ?, nome = ?, "
+					+ "telefone = ?, cep = ?, rua = ?, bairro = ?,cidade = ?, estado = ?, ibge = ?, "
+					+ "fotobase64 = ?, contenttype = ?, curriculobase64 = ?, "
+					+ "contenttypecurriculo = ? WHERE id = "+ usuarioUpdate.getId();
+			
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuarioUpdate.getLogin());
 			statement.setString(2, usuarioUpdate.getSenha());
@@ -156,6 +159,10 @@ public class UsuarioDao {
 			statement.setString(8, usuarioUpdate.getCidade());
 			statement.setString(9, usuarioUpdate.getEstado());
 			statement.setString(10, usuarioUpdate.getIbge());
+			statement.setString(11, usuarioUpdate.getFotoBase64());
+			statement.setString(12, usuarioUpdate.getContentType());
+			statement.setString(13, usuarioUpdate.getCurriculoBase64());
+			statement.setString(14, usuarioUpdate.getContentTypeCurriculo());
 			statement.executeUpdate();
 
 			connection.commit();
