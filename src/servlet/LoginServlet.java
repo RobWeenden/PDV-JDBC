@@ -17,18 +17,21 @@ import dao.LoginDao;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private LoginDao loginDao = new LoginDao();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() { }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public LoginServlet() {
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -41,6 +44,8 @@ public class LoginServlet extends HttpServlet {
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
 		
+		if(login != null && !login.isEmpty() && senha != null && !senha.isEmpty() ) {
+					
 			if(loginDao.validarLogin(login, senha)) {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("acessoliberado.jsp");
 				dispatcher.forward(request, response);
@@ -48,6 +53,11 @@ public class LoginServlet extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("acessonegado.jsp");
 				dispatcher.forward(request, response);
 			}
+			
+		}else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+			dispatcher.forward(request, response);
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

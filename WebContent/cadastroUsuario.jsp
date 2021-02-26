@@ -22,7 +22,7 @@
 					<table>
 						<tr>
 							<td>ID:</td>
-							<td><input type="text" name="id" id="id" readonly="readonly" value="${users.id}" class="input--style-4"></td>
+							<td><input type="text" name="id" id="id" readonly="readonly" value="${users.id}" class="input--style-4" placeholder="CAMPO DESATIVADO"></td>
 							<td>CEP:</td>
 							<td><input type="text" name="cep" id="cep" class="input--style-4" onblur="consultaCep();" value="${users.cep}"></td>
 						</tr>
@@ -53,19 +53,21 @@
 
 						</tr>
 						<tr>
-						<td colspan="2"></td>
+	
 							<td>IBGE:</td>
 							<td><input type="text" name="ibge" id="ibge" class="input--style-4" value="${users.ibge}"></td>
-
-						</tr>
-						<tr>
+							
 							<td>Foto:</td>
-							<td colspan="2">
+							<td>
 								<input type="file" name="foto" id="foto"  class="input--style-4 ">
 								<input type="hidden" name="fotoTemp"  value="${users.fotoBase64}" readonly="readonly" />
 								<input type="hidden" name="contentTypeTemp"  value="${users.contentType}" readonly="readonly"/>
 								
 							</td>
+
+						</tr>
+						<tr>
+							<td colspan="2"></td>
 							<td>Curriculo:</td>
 							<td>
 								<input type="file" name="curriculo" id="curriculo"  class="input--style-4 ">
@@ -111,8 +113,21 @@
 				<tr style="color: #FFED87; font-size: 12pt;">
 					<td><c:out value="${users.id}"></c:out></td>
 					<td><c:out value="${users.login}"></c:out></td>
+					
+					<c:if test="${!users.fotoBase64.isEmpty()}">
 					<td><a href="salvarUsuario?acao=download&tipo=imagem&users=${users.id}"><img src='<c:out value="${users.tempFotoUser}"></c:out>' width="60px"></a></td>
-					<td><a href="salvarUsuario?acao=download&tipo=curriculo&users=${users.id}">Curriculo</a></td>
+					</c:if>
+					<c:if test="${users.fotoBase64.isEmpty()}">
+					<td><img src="resources/img/user_pattern.png" width="60px" alt="Imagem do Usuario vazia" onclick="alert('USUARIO NÃO POSSUI IMAGEM')"></td>
+					</c:if>
+					
+					<c:if test="${!users.curriculoBase64.isEmpty()}">
+					<td><a href="salvarUsuario?acao=download&tipo=curriculo&users=${users.id}"><img src="resources/img/icon_pdf.png" alt="PDF Curriculo" width="50px"></a></td>
+					</c:if>
+					<c:if test="${users.curriculoBase64.isEmpty()}">
+					<td><img src="resources/img/icon_no_pdf.png" width="50px" alt="Curriculo do Usuario Vazia" onclick="alert('USUARIO NÃO POSSUI CURRICULO')"></td>
+					</c:if>
+					
 					<td><c:out value="${users.nome}"></c:out></td>
 					<td><c:out value="${users.telefone}"></c:out></td>
 					<td><c:out value="${users.cep}"></c:out></td>
@@ -121,9 +136,9 @@
 					<td><c:out value="${users.cidade}"></c:out></td>
 					<td><c:out value="${users.estado}"></c:out></td>
 					<td><c:out value="${users.ibge}"></c:out></td>
-					<td><a href="salvarUsuario?acao=update&users=${users.id}"><img src="resources/img/editi.png" width="60px"></a></td>
-					<td><a href="salvarUsuario?acao=delete&users=${users.id}"><img src="resources/img/del.png" width="60px"></a></td>
-					<td><a href="salvarTelefones?acao=addFone&users=${users.id}"><img src="resources/img/phone.png" width="60px"></a></td>
+					<td><a href="salvarUsuario?acao=update&users=${users.id}"><img src="resources/img/editi.png" width="60px" alt="Atualizar Usuario"></a></td>
+					<td><a href="salvarUsuario?acao=delete&users=${users.id}"><img src="resources/img/del.png" width="60px" alt="Deletar usuario"></a></td>
+					<td><a href="salvarTelefones?acao=addFone&users=${users.id}"><img src="resources/img/phone.png" width="60px" alt="Adicionar Telefones"></a></td>
 				</tr>
 			</c:forEach>
 		</table>
