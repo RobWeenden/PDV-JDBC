@@ -54,14 +54,14 @@ public class UsuarioServlet extends HttpServlet {
 			String acao = request.getParameter("acao");
 			String users = request.getParameter("users");
 
-			if (acao.equalsIgnoreCase("update")) {
+			if (acao != null && acao.equalsIgnoreCase("update")) {
 				UsuarioBeans userUpdate = usuarioDao.consultar(users);
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				request.setAttribute("users", userUpdate);
 				view.forward(request, response);
 
-			} else if (acao.equalsIgnoreCase("delete")) {
+			} else if (acao != null && acao.equalsIgnoreCase("delete")) {
 				usuarioDao.delete(users);
 
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
@@ -69,12 +69,12 @@ public class UsuarioServlet extends HttpServlet {
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				view.forward(request, response);
 
-			} else if (acao.equals("listar")) {
+			} else if (acao != null && acao.equals("listar")) {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				view.forward(request, response);
 
-			} else if (acao.equalsIgnoreCase("download")) {
+			} else if (acao != null && acao.equalsIgnoreCase("download")) {
 				UsuarioBeans usuarioBeans = usuarioDao.consultar(users);
 				if (usuarioBeans != null) {
 
@@ -111,6 +111,11 @@ public class UsuarioServlet extends HttpServlet {
 					os.close();// fechar o processo/fluxo
 
 				}
+			}else {
+				RequestDispatcher dispatcher = request.getRequestDispatcher("cadastroUsuario.jsp");
+				request.setAttribute("usuarios", usuarioDao.readListar());
+				dispatcher.forward(request, response);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
