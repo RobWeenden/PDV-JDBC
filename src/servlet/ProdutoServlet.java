@@ -39,21 +39,26 @@ public class ProdutoServlet extends HttpServlet {
 		String produto = request.getParameter("prod");
 
 		try {
-			if (acao.equalsIgnoreCase("update")) {
+			if (acao != null && acao.equalsIgnoreCase("update")) {
 				ProdutoBeans produtoBeans = produtoDao.consultarProd(produto);
 				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
 				request.setAttribute("prod", produtoBeans);
 				view.forward(request, response);
 
-			} else if (acao.equalsIgnoreCase("delete")) {
+			} else if (acao != null && acao.equalsIgnoreCase("delete")) {
 				produtoDao.deleteProd(produto);
 				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
 				request.setAttribute("msg", "Deletado com sucesso!!!");
 				request.setAttribute("produtos", produtoDao.readProd());
 				view.forward(request, response);
 
-			} else if (acao.equalsIgnoreCase("listar")) {
+			} else if (acao != null && acao.equalsIgnoreCase("listar")) {
 
+				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
+				request.setAttribute("produtos", produtoDao.readProd());
+				view.forward(request, response);
+				
+			}else {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
 				request.setAttribute("produtos", produtoDao.readProd());
 				view.forward(request, response);
@@ -119,7 +124,10 @@ public class ProdutoServlet extends HttpServlet {
 				}
 
 				if (valor != null && !valor.isEmpty()) {
-					produtoBeans.setValor(Double.parseDouble(valor));
+					String valorParse = valor.replaceAll("\\.", "");
+					valorParse = valorParse.replaceAll("\\,", ".");
+					
+					produtoBeans.setValor(Double.parseDouble(valorParse));
 				}
 
 				if (id == null || id.isEmpty() && produtoDao.validarNomeProduto(nome) && podeInserir) {

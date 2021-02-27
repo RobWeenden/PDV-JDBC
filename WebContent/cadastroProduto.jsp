@@ -1,9 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="ISO-8859-1">
+<script src="resources/js/jquery.min.js" type="text/javascript"></script>
+<script src="resources/js/jquery.maskMoney.min.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="resources/css/mainProd.css" media="all">
 <title>CADASTRAR PRODUTO</title>
 </head>
@@ -25,23 +27,23 @@
                         <tr>
                             <td>NOME:</td>
                             <td><input type="text" name="nome" id="nome" placeholder="" autocomplete="off"
-                                    class="input--style-4" value="${prod.nome}"/></td>
+                                    class="input--style-4" value="${prod.nome}" maxlength="100"/></td>
                         </tr>
                         <tr>
                             <td>QUANTIDADE:</td>
-                            <td><input type="text" name="quantidade" id="quantidade" placeholder=""
-                                    class="input--style-4"  value="${prod.quantidade}"/></td>
+                            <td><input type="number" name="quantidade" id="quantidade" placeholder=""
+                                    class="input--style-4"  value="${prod.quantidade}" maxlength="10"/></td>
                         </tr>
                         <tr>
                             <td>VALOR:</td>
-                            <td><input type="text" name="valor" id="valor" placeholder="" autocomplete="off"
-                                    class="input--style-4" value="${prod.valor}"/></td>
+                            <td><input type="text" name="valor" id="valor" data-thousands="." data-decimal="," autocomplete="off"
+                                    class="input--style-4" value="${prod.valor}" maxlength="20" /></td>
                         </tr>
                         <tr>
 
                             <td colspan="2"><input type="submit" value="SALVAR" class="btn btn--color" />
                                 <input type="submit" value="CANCELAR"
-                                    onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'"
+                                    onclick="document.getElementById('formUser').action = 'salvarProduto?acao=reset'"
                                     class="btn btn--color btn2" />
                             </td>
                         </tr>
@@ -55,7 +57,7 @@
         <h2 class="title-tb-msg">${msg}</h2>
         <h2 class="title">PRODUTOS CADASTRADOS</h2>
 
-        <table class="tb_Users table">
+        <table class="tb_Users table" border="2">
             <tr style="color:#fff; font-size:15pt;">
                 <th>ID</th>
                 <th>NOME</th>
@@ -89,18 +91,22 @@
     <script type="text/javascript">
         function validarCampos() {
             if (document.getElementById("nome").value == '') {
-                alert("Informe o Nome!");
+                alert("INFORME O NOME DO PRODUTO!");
                 return false;
             } else if (document.getElementById("quantidade").value == '') {
-                alert("Informe a Quantidade!");
+                alert("INFORME A QUANTIDADE!");
                 return false;
             } else if (document.getElementById("valor").value == '') {
-                alert("Informe o Valor!");
+                alert("INFORME O VALOR!");
                 return false;
             }
             return true;
         }
 
+        //FUNÇÃO MASKMONEY - JQUERY
+        $(function() {
+			$('#valor').maskMoney();
+		})
 
     </script>
 </body>
