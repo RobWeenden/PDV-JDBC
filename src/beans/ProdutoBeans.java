@@ -40,6 +40,14 @@ public class ProdutoBeans {
 		this.valor = valor;
 	}
 	
-	
+	/**
+	 * Metodo getValorEmTexto()
+	 * Responsavel em substituir o ponto e virgula do valor
+	 * No momento da atualização do Produto
+	 * @return
+	 */
+	public String getValorEmTexto() {
+		return Double.toString(valor).replace('.', ',');
+	}
 
 }

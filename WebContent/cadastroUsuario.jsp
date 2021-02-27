@@ -79,7 +79,7 @@
 						<tr>
 							<td colspan="2"><input type="submit" value="SALVAR" class="btn btn--color" /></td>
 
-							<td colspan="2"><input type="submit" value="CANCELAR" class="btn btn--color btn2" onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'" />
+							<td colspan="2"><input type="reset" value="CANCELAR" id="reset" class="btn btn--color btn2" onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'" />
 						</tr>
 					</table>
 				</form>
@@ -147,16 +147,16 @@
 	<script type="text/javascript">
 		function validarCampos() {
 			if (document.getElementById("login").value == '') {
-				alert("Informe o Login!");
+				alert("INFORME O LOGIN!");
 				return false;
 			} else if (document.getElementById("senha").value == '') {
-				alert("Informe a Senha!");
+				alert("INFORME A SENHA!");
 				return false;
 			} else if (document.getElementById("nome").value == '') {
-				alert("Informe o Nome!");
+				alert("INFORME O NOME!");
 				return false;
 			} else if (document.getElementById("telefone").value == '') {
-				alert("Informe o Telefone!");
+				alert("INFORME O NUMERO DE TELEFONE!");
 				return false;
 			}
 			return true;

@@ -135,15 +135,24 @@ public class ProdutoServlet extends HttpServlet {
 					produtoDao.createProd(produtoBeans);
 
 				} else if (id != null && !id.isEmpty() && podeInserir) {
-					if (!produtoDao.validarNomeProduto(nome)) {
-						request.setAttribute("msg", "Produto já existi");
-						request.setAttribute("prod", produtoBeans);
-					} else {
+					
 						request.setAttribute("msg", "Atualizado com sucesso!!!");
 						produtoDao.updateProd(produtoBeans);
-					}
-
+	
 				}
+				/*
+				 * ATENÇÃO - CASO DESEJAR UTILIZAR O CODIGO ABAIXO -
+				 * ELE É RESPONSAVEL EM NÃO PERMITIR QUE O PRODUTO SEJA ATUALIZADO,
+				 * SENDO QUE JÁ EXISTA O MESMO NOME NO BANCO
+				 * 
+				 * SE DESEJAR COPIAR NA LINHA 138
+				 * 
+				 * if(!produtoDao.validarNomeProduto(nome)) { request.setAttribute("msg",
+				 * "Produto já existi"); request.setAttribute("prod", produtoBeans); } else {
+				 * request.setAttribute("msg", "Atualizado com sucesso!!!");
+				 * produtoDao.updateProd(produtoBeans);
+				 * }else {
+				 */
 
 				/*
 				 * if(!podeInserir) { request.setAttribute("produtos", produtoBeans); }

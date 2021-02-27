@@ -101,6 +101,7 @@ public class TelefoneServlet extends HttpServlet {
 				request.setAttribute("msg", "TELEFONE JÁ EXISTI!");
 				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
 				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
+				request.setAttribute("fone", telefoneBeans);
 				view.forward(request, response);
 
 			} else if (tipo == null || tipo.isEmpty()) {
