@@ -105,4 +105,23 @@ public class TelefoneDao {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Metodo validarTelefone()
+	 * Reponsável por validar numero(Não pode existir uma mesmo numero para dois Usuarios Diferentes)
+	 * @param String numero = Atribuido numero do Usuario
+	 * @return true/false
+	 * @throws Exception
+	 */
+	public boolean validarNumero(String numero) throws Exception {
+		String sql = "SELECT COUNT(1) as qtd FROM telefone WHERE numero ='" + numero + "'";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultSet = statement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("qtd") <= 0;
+		} else {
+			return false;
+		}
+	}
 }

@@ -73,42 +73,43 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				view.forward(request, response);
-				
-			}else if(acao.equalsIgnoreCase("download")) {
+
+			} else if (acao.equalsIgnoreCase("download")) {
 				UsuarioBeans usuarioBeans = usuarioDao.consultar(users);
-				if(usuarioBeans != null) {
-					
+				if (usuarioBeans != null) {
+
 					String contentType = "";
 					byte[] fileBytes = null;
 					String tipo = request.getParameter("tipo");
-					
-					if(tipo.equalsIgnoreCase("imagem")) {
+
+					if (tipo.equalsIgnoreCase("imagem")) {
 						contentType = usuarioBeans.getContentType();
-						/*Converte a base64 da imagem do banco para byte[]*/
+						/* Converte a base64 da imagem do banco para byte[] */
 						fileBytes = new Base64().decodeBase64(usuarioBeans.getFotoBase64());
-						
-					}else if(tipo.equalsIgnoreCase("curriculo")){
+
+					} else if (tipo.equalsIgnoreCase("curriculo")) {
 						contentType = usuarioBeans.getContentTypeCurriculo();
-						/*Converte a base64 da imagem do banco para byte[]*/
+						/* Converte a base64 da imagem do banco para byte[] */
 						fileBytes = new Base64().decodeBase64(usuarioBeans.getCurriculoBase64());
 					}
-					
-					response.setHeader("Content-Disposition", "attachment;filename=arquivo."+ contentType.split("\\/")[1]);
-					
-					/*Inserido os bytes codificados em um objeto de entrada para processamento*/
+
+					response.setHeader("Content-Disposition",
+							"attachment;filename=arquivo." + contentType.split("\\/")[1]);
+
+					/* Inserido os bytes codificados em um objeto de entrada para processamento */
 					InputStream is = new ByteArrayInputStream(fileBytes);
-					
-					/*Inicio da resposta para o Browser*/
-					int read = 0;//inicializar o controle do fluxo
+
+					/* Inicio da resposta para o Browser */
+					int read = 0;// inicializar o controle do fluxo
 					byte[] bytes = new byte[1024];
 					OutputStream os = response.getOutputStream();
-					
-					while((read = is.read(bytes)) != -1 ) {
+
+					while ((read = is.read(bytes)) != -1) {
 						os.write(bytes, 0, read);
 					}
-					os.flush();//finalizar
-					os.close();//fechar o processo/fluxo
-					
+					os.flush();// finalizar
+					os.close();// fechar o processo/fluxo
+
 				}
 			}
 		} catch (Exception e) {
@@ -151,7 +152,7 @@ public class UsuarioServlet extends HttpServlet {
 				String cidade = request.getParameter("cidade");
 				String estado = request.getParameter("estado");
 				String ibge = request.getParameter("ibge");
-				
+
 				UsuarioBeans usuarioBeans = new UsuarioBeans();
 				usuarioBeans.setId((id != null && !id.isEmpty()) ? Long.parseLong(id) : null);
 				usuarioBeans.setLogin(login);
@@ -168,30 +169,32 @@ public class UsuarioServlet extends HttpServlet {
 				/*
 				 * Inicio File upload de imagens e pdf
 				 */
-				if(ServletFileUpload.isMultipartContent(request)) {
-					
+				if (ServletFileUpload.isMultipartContent(request)) {
+
 					Part imagemFoto = request.getPart("foto");
-					if(imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
-					
-					String fotoBase64 = new Base64().encodeBase64String(converteStreamParaByte(imagemFoto.getInputStream()));
-					usuarioBeans.setFotoBase64(fotoBase64);
-					usuarioBeans.setContentType(imagemFoto.getContentType());
-					
-					}else {
-						
+					if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
+
+						String fotoBase64 = new Base64()
+								.encodeBase64String(converteStreamParaByte(imagemFoto.getInputStream()));
+						usuarioBeans.setFotoBase64(fotoBase64);
+						usuarioBeans.setContentType(imagemFoto.getContentType());
+
+					} else {
+
 						usuarioBeans.setFotoBase64(request.getParameter("fotoTemp"));
 						usuarioBeans.setContentType(request.getParameter("contentTypeTemp"));
 					}
-					
-					/*Processar o PDF*/
+
+					/* Processar o PDF */
 					Part curriculoPdf = request.getPart("curriculo");
-					if(curriculoPdf != null && curriculoPdf.getInputStream().available() > 0) {
-						
-						String curriculoBase64 = new Base64().encodeBase64String(converteStreamParaByte(curriculoPdf.getInputStream()));
+					if (curriculoPdf != null && curriculoPdf.getInputStream().available() > 0) {
+
+						String curriculoBase64 = new Base64()
+								.encodeBase64String(converteStreamParaByte(curriculoPdf.getInputStream()));
 						usuarioBeans.setCurriculoBase64(curriculoBase64);
 						usuarioBeans.setContentTypeCurriculo(curriculoPdf.getContentType());
-					}else {
-						
+					} else {
+
 						usuarioBeans.setCurriculoBase64(request.getParameter("curriculoTemp"));
 						usuarioBeans.setContentTypeCurriculo(request.getParameter("contentTypeTempCurriculo"));
 					}
@@ -267,21 +270,21 @@ public class UsuarioServlet extends HttpServlet {
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * Metodo convertStreamParaByte()
-	 * Responsavel em converter a entrada do fluxo de dados da IMAGEM para byte[]
+	 * Metodo convertStreamParaByte() Responsavel em converter a entrada do fluxo de
+	 * dados da IMAGEM para byte[]
+	 * 
 	 * @param imagem
 	 * @return
 	 * @throws Exception
 	 */
 	private static byte[] converteStreamParaByte(InputStream imagem) throws Exception {
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int reads = imagem.read();
-		
-		while(reads != -1) {
+
+		while (reads != -1) {
 			baos.write(reads);
 			reads = imagem.read();
 		}

@@ -41,28 +41,27 @@ public class TelefoneServlet extends HttpServlet {
 
 		try {
 			String acao = request.getParameter("acao");
-			
-			if(acao.equalsIgnoreCase("addFone")) {
-				
-			String user = request.getParameter("users");
 
-			UsuarioBeans usuarioBeans = usuarioDao.consultar(user);
+			if (acao.equalsIgnoreCase("addFone")) {
+
+				String user = request.getParameter("users");
+
+				UsuarioBeans usuarioBeans = usuarioDao.consultar(user);
 //		request.getSession().setAttribute("users", usuarioBeans.getId());
 //		request.getSession().setAttribute("nomeUser", usuarioBeans.getNome());
-			request.getSession().setAttribute("userEscolhido", usuarioBeans);
-			request.setAttribute("userEscolhido", usuarioBeans);
-			
+				request.getSession().setAttribute("userEscolhido", usuarioBeans);
+				request.setAttribute("userEscolhido", usuarioBeans);
 
-			RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
-			request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
-			view.forward(request, response);
-			
-			}else if(acao.endsWith("deleteFone")) {
-				
+				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
+				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
+				view.forward(request, response);
+
+			} else if (acao.endsWith("deleteFone")) {
+
 				UsuarioBeans usuarioBeans = (UsuarioBeans) request.getSession().getAttribute("userEscolhido");
 				String foneId = request.getParameter("foneId");
 				telefoneDao.deleteTel(foneId);
-				
+
 				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
 				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
 				request.setAttribute("msg", "Removido com Sucesso!!");
@@ -83,26 +82,48 @@ public class TelefoneServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-		UsuarioBeans usuarioBeans = (UsuarioBeans) request.getSession().getAttribute("userEscolhido");
-		String numero = request.getParameter("numero");
-		String tipo = request.getParameter("tipo");
+			UsuarioBeans usuarioBeans = (UsuarioBeans) request.getSession().getAttribute("userEscolhido");
+			String numero = request.getParameter("numero");
+			String tipo = request.getParameter("tipo");
 
 			TelefoneBeans telefoneBeans = new TelefoneBeans();
 			telefoneBeans.setNumero(numero);
 			telefoneBeans.setTipo(tipo);
 			telefoneBeans.setUsuario(usuarioBeans.getId());
 
-			telefoneDao.createTel(telefoneBeans);
-			
-			request.getSession().setAttribute("userEscolhido", usuarioBeans);
-			request.setAttribute("userEscolhido", usuarioBeans);
-			
-			
-			RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
-			request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
-			request.setAttribute("msg", "Salvo com Sucesso!!");
-			view.forward(request, response);
-			
+			if (numero == null || numero.isEmpty()) {
+				request.setAttribute("msg", "INFORME O NUMERO DE TELEFONE!");
+				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
+				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
+				view.forward(request, response);
+
+			} else if (numero != null && !numero.isEmpty() && !telefoneDao.validarNumero(numero)) {
+				request.setAttribute("msg", "TELEFONE JÁ EXISTI!");
+				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
+				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
+				view.forward(request, response);
+
+			} else if (tipo == null || tipo.isEmpty()) {
+
+				request.setAttribute("msg", "INFORME O TIPO DE TELEFONE!");
+				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
+				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
+				request.setAttribute("fone", telefoneBeans);
+				view.forward(request, response);
+
+			} else {
+
+				telefoneDao.createTel(telefoneBeans);
+
+				request.getSession().setAttribute("userEscolhido", usuarioBeans);
+				request.setAttribute("userEscolhido", usuarioBeans);
+
+				RequestDispatcher view = request.getRequestDispatcher("cadastroTelefones.jsp");
+				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
+				request.setAttribute("msg", "Salvo com Sucesso!!");
+				view.forward(request, response);
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

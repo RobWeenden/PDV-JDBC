@@ -24,13 +24,15 @@
 						</tr>
 						<tr>
 							<td>NÚMERO:</td>
-							<td><input type="text" name="numero" id="numero" class="input--style-4"></td>
+							<td><input type="text" name="numero" id="numero" class="input--style-4" value="${fone.numero}"></td>
 							<td>TIPO:</td>
 							
 							<td>
-								<select name="tipo" id="tipo" class="input--style-4">
+								<select name="tipo" id="tipo" class="input--style-4" style="width:200px;">
+									<option/>
 									<option>Residencial</option>
 									<option>Recado</option>
+									<option>Trabalho</option>
 									<option>Celular</option>
 								</select>
 							
@@ -71,10 +73,10 @@
 	<script type="text/javascript">
 		function validarCampos() {
 			if (document.getElementById("numero").value == '') {
-				alert("Informe o Número!");
+				alert("INFORME O NÚMERO DE TELEFONE!");
 				return false;
 			} else if (document.getElementById("tipo").value == '') {
-				alert("Informe o Tipo!");
+				alert("INFORME O TIPO!");
 				return false;
 			} 
 			return true;

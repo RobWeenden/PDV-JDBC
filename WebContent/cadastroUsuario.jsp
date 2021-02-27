@@ -24,32 +24,32 @@
 							<td>ID:</td>
 							<td><input type="text" name="id" id="id" readonly="readonly" value="${users.id}" class="input--style-4" placeholder="CAMPO DESATIVADO"></td>
 							<td>CEP:</td>
-							<td><input type="text" name="cep" id="cep" class="input--style-4" onblur="consultaCep();" value="${users.cep}"></td>
+							<td><input type="text" name="cep" id="cep" class="input--style-4" onblur="consultaCep();" value="${users.cep}" maxlength="9"></td>
 						</tr>
 						<tr>
 							<td>Login:</td>
-							<td><input type="text" name="login" id="login" placeholder="" autocomplete="off" value="${users.login}" class="input--style-4" /></td>
+							<td><input type="text" name="login" id="login" placeholder="" autocomplete="off" value="${users.login}" class="input--style-4"  maxlength="10"/></td>
 							<td>Rua:</td>
-							<td><input type="text" name="rua" id="rua" class="input--style-4" value="${users.rua}"></td>
+							<td><input type="text" name="rua" id="rua" class="input--style-4" value="${users.rua}" maxlength="50"></td>
 						</tr>
 						<tr>
 							<td>Senha:</td>
-							<td><input type="password" name="senha" id="senha" placeholder="" value="${users.senha}" class="input--style-4" /></td>
+							<td><input type="password" name="senha" id="senha" placeholder="" value="${users.senha}" class="input--style-4" maxlength="10"/></td>
 							<td>Bairro:</td>
-							<td><input type="text" name="bairro" id="bairro" class="input--style-4" value="${users.bairro}"></td>
+							<td><input type="text" name="bairro" id="bairro" class="input--style-4" value="${users.bairro}" maxlength="50"></td>
 						</tr>
 						<tr>
 							<td>Nome:</td>
-							<td><input type="text" name="nome" id="nome" placeholder="" autocomplete="off" value="${users.nome}" class="input--style-4" /></td>
+							<td><input type="text" name="nome" id="nome" placeholder="" autocomplete="off" value="${users.nome}" class="input--style-4" maxlength="50"/></td>
 							<td>Cidade:</td>
-							<td><input type="text" name="cidade" id="cidade" class="input--style-4" value="${users.cidade}"></td>
+							<td><input type="text" name="cidade" id="cidade" class="input--style-4" value="${users.cidade}" maxlength="50"></td>
 
 						</tr>
 						<tr>
 							<td>Telefone:</td>
 							<td><input type="text" name="telefone" id="telefone" placeholder="" autocomplete="off" value="${users.telefone}" class="input--style-4" /></td>
 							<td>Estado:</td>
-							<td><input type="text" name="estado" id="estado" class="input--style-4" value="${users.estado}"></td>
+							<td><input type="text" name="estado" id="estado" class="input--style-4" value="${users.estado}" maxlength="2"></td>
 
 						</tr>
 						<tr>
