@@ -40,7 +40,7 @@ public class UsuarioDao {
 	public void create(UsuarioBeans usuario) {
 		try {
 			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, "
-					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo, fotobase64miniatura) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getLogin());
 			statement.setString(2, usuario.getSenha());
@@ -56,6 +56,7 @@ public class UsuarioDao {
 			statement.setString(12, usuario.getContentType());
 			statement.setString(13, usuario.getCurriculoBase64());
 			statement.setString(14, usuario.getContentTypeCurriculo());
+			statement.setString(15, usuario.getFotoBase64Miniatura());
 			statement.execute();
 			
 			connection.commit();
@@ -146,7 +147,7 @@ public class UsuarioDao {
 			String sql = "UPDATE usuario SET login = ?, senha = ?, nome = ?, "
 					+ "telefone = ?, cep = ?, rua = ?, bairro = ?,cidade = ?, estado = ?, ibge = ?, "
 					+ "fotobase64 = ?, contenttype = ?, curriculobase64 = ?, "
-					+ "contenttypecurriculo = ? WHERE id = "+ usuarioUpdate.getId();
+					+ "contenttypecurriculo = ?, fotobase64miniatura = ? WHERE id = "+ usuarioUpdate.getId();
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuarioUpdate.getLogin());
@@ -163,6 +164,7 @@ public class UsuarioDao {
 			statement.setString(12, usuarioUpdate.getContentType());
 			statement.setString(13, usuarioUpdate.getCurriculoBase64());
 			statement.setString(14, usuarioUpdate.getContentTypeCurriculo());
+			statement.setString(15,usuarioUpdate.getFotoBase64Miniatura());
 			statement.executeUpdate();
 
 			connection.commit();

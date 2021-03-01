@@ -19,6 +19,7 @@ public class UsuarioBeans {
 	private String estado;
 	private String ibge;
 	private String fotoBase64;
+	private String fotoBase64Miniatura;
 	private String contentType;
 	private String curriculoBase64;
 	private String contentTypeCurriculo;
@@ -34,6 +35,14 @@ public class UsuarioBeans {
 	public String getTempFotoUser() {
 		tempFotoUser = "data:" + contentType + ";base64, " + fotoBase64;
 		return tempFotoUser;
+	}
+
+	public String getFotoBase64Miniatura() {
+		return fotoBase64Miniatura;
+	}
+
+	public void setFotoBase64Miniatura(String fotoBase64Miniatura) {
+		this.fotoBase64Miniatura = fotoBase64Miniatura;
 	}
 
 	public String getCurriculoBase64() {

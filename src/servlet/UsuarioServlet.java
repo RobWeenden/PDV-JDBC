@@ -1,11 +1,14 @@
 package servlet;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.tomcat.util.buf.UDecoder;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -178,11 +182,39 @@ public class UsuarioServlet extends HttpServlet {
 
 					Part imagemFoto = request.getPart("foto");
 					if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
-
-						String fotoBase64 = new Base64()
-								.encodeBase64String(converteStreamParaByte(imagemFoto.getInputStream()));
+						
+						byte[] bytesImagem = converteStreamParaByte(imagemFoto.getInputStream());
+						
+ 						String fotoBase64 = new Base64().encodeBase64String(bytesImagem);
 						usuarioBeans.setFotoBase64(fotoBase64);
 						usuarioBeans.setContentType(imagemFoto.getContentType());
+						
+						/*INICIO MINIATURA IMAGEM*/
+						
+						//Transformar em um BufferedImage
+						
+						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesImagem));
+						
+						//Setar o Tipo da Imagem
+						int type = bufferedImage.getType() == 0? BufferedImage.TYPE_INT_ARGB:bufferedImage.getType();
+						
+						//Criar imagem em miniatura
+						BufferedImage resizedImage = new BufferedImage(100, 100, type);
+						
+						//Trabalhar a parte grafica
+						Graphics2D g2D = resizedImage.createGraphics();
+						g2D.drawImage(resizedImage, 0, 0, 100, 100, null);
+						
+						//ESCREVER IMAGEM NOVAMENTE
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						ImageIO.write(resizedImage, "png", baos);
+						
+						//IMAGEM EM MINIATURA - gravar no DB pronto para ser retornado na Tela passando o cabeçalho
+						String miniaturaBase64 = "data:image/png;base64," + DatatypeConverter.printBase64Binary(baos.toByteArray());
+						
+						usuarioBeans.setFotoBase64Miniatura(miniaturaBase64);
+						
+						/*FIM MINIATURA IMAGEM*/
 
 					} else {
 
