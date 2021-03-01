@@ -79,7 +79,7 @@ public class UsuarioDao {
 	public List<UsuarioBeans> readListar() throws Exception{
 		
 		List<UsuarioBeans> usuarioLista = new ArrayList<UsuarioBeans>();
-		String sql = "SELECT * FROM usuario";
+		String sql = "SELECT * FROM usuario where login <> 'adm'";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 		
@@ -96,7 +96,7 @@ public class UsuarioDao {
 			usuarios.setCidade(resultSet.getString("cidade"));
 			usuarios.setEstado(resultSet.getString("estado"));
 			usuarios.setIbge(resultSet.getString("ibge"));
-			//usuarios.setFotoBase64(resultSet.getString("fotobase64"));
+			usuarios.setFotoBase64(resultSet.getString("fotobase64"));
 			usuarios.setContentType(resultSet.getString("contenttype"));
 			usuarios.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuarios.setCurriculoBase64(resultSet.getString("curriculobase64"));
@@ -117,7 +117,7 @@ public class UsuarioDao {
 	public void delete(String id) {
 		try {
 			String sqlFone = "DELETE FROM telefone WHERE usuario = "+id;//Excluir Telefone que está Relacionado com o Usuario	
-			String sqlUser = "DELETE FROM usuario WHERE id =" + id; //Excluir Usuario Após Telefone ser Excluido
+			String sqlUser = "DELETE FROM usuario WHERE id = '" + id+ "' and login <> 'adm'"; //Excluir Usuario Após Telefone ser Excluido
 			
 			PreparedStatement statement = connection.prepareStatement(sqlFone);//Telefone(TABELA FILHO)
 			
@@ -188,7 +188,7 @@ public class UsuarioDao {
 	 * @throws Exception
 	 */
 	public UsuarioBeans consultar(String id) throws Exception {
-		String sql = "SELECT * FROM usuario WHERE id = " + id;
+		String sql = "SELECT * FROM usuario WHERE id = ' " + id+" ' and login <> 'adm'";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 
@@ -205,7 +205,7 @@ public class UsuarioDao {
 			usuario.setCidade(resultSet.getString("cidade"));
 			usuario.setEstado(resultSet.getString("estado"));
 			usuario.setIbge(resultSet.getString("ibge"));
-			usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			//usuario.setFotoBase64(resultSet.getString("fotobase64"));
 			usuario.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));

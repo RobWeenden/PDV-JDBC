@@ -121,10 +121,10 @@
 					<td><img src="resources/img/user_pattern.png" width="60px" alt="Imagem do Usuario vazia" onclick="alert('USUARIO NÃO POSSUI IMAGEM')"></td>
 					</c:if>
 					
-					<c:if test="${users.curriculoBase64.isEmpty() == false}">
+					<c:if test="${!users.curriculoBase64.isEmpty()}">
 					<td><a href="salvarUsuario?acao=download&tipo=curriculo&users=${users.id}"><img src="resources/img/icon_pdf.png" alt="PDF Curriculo" width="50px"></a></td>
 					</c:if>
-					<c:if test="${users.curriculoBase64.isEmpty() == true}">
+					<c:if test="${users.curriculoBase64.isEmpty()}">
 					<td><img src="resources/img/icon_no_pdf.png" width="50px" alt="Curriculo do Usuario Vazia" onclick="alert('USUARIO NÃO POSSUI CURRICULO')"></td>
 					</c:if>
 					

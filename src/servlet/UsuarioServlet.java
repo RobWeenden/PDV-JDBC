@@ -214,7 +214,7 @@ public class UsuarioServlet extends HttpServlet {
 						/*FIM MINIATURA IMAGEM*/
 
 					} else {
-
+//						usuarioBeans.setFotoBase64Miniatura(request.getParameter("fotoTemp"));
 						usuarioBeans.setFotoBase64(request.getParameter("fotoTemp"));
 						usuarioBeans.setContentType(request.getParameter("contentTypeTemp"));
 					}
