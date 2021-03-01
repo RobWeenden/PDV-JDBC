@@ -182,28 +182,25 @@ public class UsuarioServlet extends HttpServlet {
 
 					Part imagemFoto = request.getPart("foto");
 					if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
-						
-						byte[] bytesImagem = converteStreamParaByte(imagemFoto.getInputStream());
-						
- 						String fotoBase64 = new Base64().encodeBase64String(bytesImagem);
+					
+ 						String fotoBase64 = new Base64().encodeBase64String(converteStreamParaByte(imagemFoto.getInputStream()));
 						usuarioBeans.setFotoBase64(fotoBase64);
 						usuarioBeans.setContentType(imagemFoto.getContentType());
 						
 						/*INICIO MINIATURA IMAGEM*/
 						
 						//Transformar em um BufferedImage
-						
-						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesImagem));
+						byte[] imageByteDecode = new Base64().decodeBase64(fotoBase64);
+						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageByteDecode));
 						
 						//Setar o Tipo da Imagem
-						int type = bufferedImage.getType() == 0? BufferedImage.TYPE_INT_ARGB:bufferedImage.getType();
+						int type = bufferedImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB: bufferedImage.getType();
 						
-						//Criar imagem em miniatura
+						//Criar imagem em miniatura - Trabalhar a parte grafica
 						BufferedImage resizedImage = new BufferedImage(100, 100, type);
-						
-						//Trabalhar a parte grafica
 						Graphics2D g2D = resizedImage.createGraphics();
-						g2D.drawImage(resizedImage, 0, 0, 100, 100, null);
+						g2D.drawImage(bufferedImage, 0, 0, 100, 100, null);
+						g2D.dispose();
 						
 						//ESCREVER IMAGEM NOVAMENTE
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
