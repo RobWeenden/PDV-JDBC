@@ -23,9 +23,13 @@ public class UsuarioBeans {
 	private String contentType;
 	private String curriculoBase64;
 	private String contentTypeCurriculo;
-
 	private String tempFotoUser;
 
+	
+	
+	private boolean atualizarImage = true;
+	private boolean atualizarPdf = true;
+	
 	/**
 	 * Metodo getTempFotoUser() Responsavel por concartenar as String da Imagem e
 	 * Pdf
@@ -164,5 +168,23 @@ public class UsuarioBeans {
 	public void setIbge(String ibge) {
 		this.ibge = ibge;
 	}
+
+	public boolean isAtualizarImage() {
+		return atualizarImage;
+	}
+
+	public void setAtualizarImage(boolean atualizarImage) {
+		this.atualizarImage = atualizarImage;
+	}
+
+	public boolean isAtualizarPdf() {
+		return atualizarPdf;
+	}
+
+	public void setAtualizarPdf(boolean atualizarPdf) {
+		this.atualizarPdf = atualizarPdf;
+	}
+	
+	
 
 }

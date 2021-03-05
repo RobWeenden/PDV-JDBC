@@ -11,10 +11,9 @@ import beans.UsuarioBeans;
 import connection.SingleConnection;
 
 /**
- * Classe UsuarioDao
- * Classe Responsavel que provê os Métodos e Validações 
- * Para Manipular Dados, e Acesso e Manipulação do BD e
- * Realizar o CRUD no BD
+ * Classe UsuarioDao Classe Responsavel que provê os Métodos e Validações Para
+ * Manipular Dados, e Acesso e Manipulação do BD e Realizar o CRUD no BD
+ * 
  * @author ritim
  *
  */
@@ -23,22 +22,23 @@ public class UsuarioDao {
 	 * Recebe o Objeto connection da Classe Connection Como Atributo de Classe
 	 */
 	private Connection connection;
-	
+
 	/*
-	 * Construtor UsuarioDao()
-	 * Recebe um Objeto connection da Classe SingleConnection
+	 * Construtor UsuarioDao() Recebe um Objeto connection da Classe
+	 * SingleConnection
 	 */
 	public UsuarioDao() {
 		connection = SingleConnection.getConnection();
 	}
-	
+
 	/**
-	 * Metodo create()
-	 * Provê a inserção dos dados(INSERT) do Usuario no DB
+	 * Metodo create() Provê a inserção dos dados(INSERT) do Usuario no DB
+	 * 
 	 * @param UsuarioBeans usuario = Objeto Usuario da Classe UsuarioBeans
 	 */
 	public void create(UsuarioBeans usuario) {
 		try {
+
 			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, "
 					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo, fotobase64miniatura) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -58,7 +58,7 @@ public class UsuarioDao {
 			statement.setString(14, usuario.getContentTypeCurriculo());
 			statement.setString(15, usuario.getFotoBase64Miniatura());
 			statement.execute();
-			
+
 			connection.commit();
 		} catch (SQLException e) {
 			try {
@@ -69,21 +69,22 @@ public class UsuarioDao {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Metodo readListar()
-	 * Responsavel Por listar(SELECT * FROM) todos os usarios no sistema
+	 * Metodo readListar() Responsavel Por listar(SELECT * FROM) todos os usarios no
+	 * sistema
+	 * 
 	 * @return uma lista de usuarios da Classe UsuarioBeans
 	 * @throws Exception
 	 */
-	public List<UsuarioBeans> readListar() throws Exception{
-		
+	public List<UsuarioBeans> readListar() throws Exception {
+
 		List<UsuarioBeans> usuarioLista = new ArrayList<UsuarioBeans>();
 		String sql = "SELECT * FROM usuario where login <> 'adm'";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
-		
-		while(resultSet.next()) {
+
+		while (resultSet.next()) {
 			UsuarioBeans usuarios = new UsuarioBeans();
 			usuarios.setId(resultSet.getLong("id"));
 			usuarios.setLogin(resultSet.getString("login"));
@@ -103,30 +104,31 @@ public class UsuarioDao {
 			usuarios.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 			usuarioLista.add(usuarios);
 		}
-		
-		
+
 		return usuarioLista;
-		
+
 	}
-	
+
 	/**
-	 * Metodo delete()
-	 * Responsavel por fazer a Exclusão(DELETE) no DB
+	 * Metodo delete() Responsavel por fazer a Exclusão(DELETE) no DB
+	 * 
 	 * @param String id = Atributo ID do Usuario
 	 */
 	public void delete(String id) {
 		try {
-			String sqlFone = "DELETE FROM telefone WHERE usuario = "+id;//Excluir Telefone que está Relacionado com o Usuario	
-			String sqlUser = "DELETE FROM usuario WHERE id = '" + id+ "' and login <> 'adm'"; //Excluir Usuario Após Telefone ser Excluido
-			
-			PreparedStatement statement = connection.prepareStatement(sqlFone);//Telefone(TABELA FILHO)
-			
+			String sqlFone = "DELETE FROM telefone WHERE usuario = " + id;// Excluir Telefone que está Relacionado com o
+																			// Usuario
+			String sqlUser = "DELETE FROM usuario WHERE id = '" + id + "' and login <> 'adm'"; // Excluir Usuario Após
+																								// Telefone ser Excluido
+
+			PreparedStatement statement = connection.prepareStatement(sqlFone);// Telefone(TABELA FILHO)
+
 			statement.executeUpdate();
 			connection.commit();
-			
-			statement = connection.prepareStatement(sqlUser);//Usuario(TABELA PAI)
+
+			statement = connection.prepareStatement(sqlUser);// Usuario(TABELA PAI)
 			statement.executeUpdate();
-			
+
 			connection.commit();
 		} catch (SQLException e) {
 			try {
@@ -138,19 +140,35 @@ public class UsuarioDao {
 		}
 
 	}
-	
-	/**Metodo update()
-	 * Responsavel em atualizar dados (UPDATE) no DB
+
+	/**
+	 * Metodo update() Responsavel em atualizar dados (UPDATE) no DB
+	 * 
 	 * @param UsuarioBeans usuarioUpdate = Objeto usuario da Classe UsuarioBeans
 	 */
 	public void update(UsuarioBeans usuarioUpdate) {
 		try {
-			String sql = "UPDATE usuario SET login = ?, senha = ?, nome = ?, "
-					+ "telefone = ?, cep = ?, rua = ?, bairro = ?,cidade = ?, estado = ?, ibge = ?, "
-					+ "fotobase64 = ?, contenttype = ?, curriculobase64 = ?, "
-					+ "contenttypecurriculo = ?, fotobase64miniatura = ? WHERE id = "+ usuarioUpdate.getId();
-			
-			PreparedStatement statement = connection.prepareStatement(sql);
+
+			StringBuilder sql = new StringBuilder();
+			sql.append(" UPDATE usuario SET login = ?, senha = ?, nome = ?, telefone  = ");
+			sql.append("?, cep = ?, rua = ?, bairro = ?,cidade = ?, ");
+			sql.append(" estado = ?, ibge = ? ");
+
+			if (usuarioUpdate.isAtualizarImage()) {
+				sql.append(", fotobase64 = ?, contenttype = ? ");
+			}
+
+			if (usuarioUpdate.isAtualizarPdf()) {
+				sql.append(", curriculobase64 = ?, contenttypecurriculo = ? ");
+			}
+
+			if (usuarioUpdate.isAtualizarImage()) {
+				sql.append(", fotobase64miniatura = ? ");
+			}
+
+			sql.append(" WHERE id = " + usuarioUpdate.getId());
+
+			PreparedStatement statement = connection.prepareStatement(sql.toString());
 			statement.setString(1, usuarioUpdate.getLogin());
 			statement.setString(2, usuarioUpdate.getSenha());
 			statement.setString(3, usuarioUpdate.getNome());
@@ -161,11 +179,30 @@ public class UsuarioDao {
 			statement.setString(8, usuarioUpdate.getCidade());
 			statement.setString(9, usuarioUpdate.getEstado());
 			statement.setString(10, usuarioUpdate.getIbge());
-			statement.setString(11, usuarioUpdate.getFotoBase64());
-			statement.setString(12, usuarioUpdate.getContentType());
-			statement.setString(13, usuarioUpdate.getCurriculoBase64());
-			statement.setString(14, usuarioUpdate.getContentTypeCurriculo());
-			statement.setString(15,usuarioUpdate.getFotoBase64Miniatura());
+
+			if (usuarioUpdate.isAtualizarImage()) {
+				statement.setString(11, usuarioUpdate.getFotoBase64());
+				statement.setString(12, usuarioUpdate.getContentType());
+			}
+
+			if (usuarioUpdate.isAtualizarPdf()) {
+
+				if (usuarioUpdate.isAtualizarPdf() && !usuarioUpdate.isAtualizarImage()) {
+					statement.setString(11, usuarioUpdate.getCurriculoBase64());
+					statement.setString(12, usuarioUpdate.getContentTypeCurriculo());
+				} else {
+					statement.setString(13, usuarioUpdate.getCurriculoBase64());
+					statement.setString(14, usuarioUpdate.getContentTypeCurriculo());
+				}
+			} else {
+
+				if (usuarioUpdate.isAtualizarImage()) {
+					statement.setString(13, usuarioUpdate.getFotoBase64Miniatura());
+				}
+			}
+			if (usuarioUpdate.isAtualizarImage() && usuarioUpdate.isAtualizarPdf()) {
+				statement.setString(15, usuarioUpdate.getFotoBase64Miniatura());
+			}
 			statement.executeUpdate();
 
 			connection.commit();
@@ -179,16 +216,16 @@ public class UsuarioDao {
 		}
 
 	}
-	
+
 	/**
-	 * Metodo consultar()
-	 * Responsavel em por fazer consulta(SELECT) no BD
+	 * Metodo consultar() Responsavel em por fazer consulta(SELECT) no BD
+	 * 
 	 * @param Strig id = Atribuido o ID do usuario
-	 * @return 
+	 * @return
 	 * @throws Exception
 	 */
 	public UsuarioBeans consultar(String id) throws Exception {
-		String sql = "SELECT * FROM usuario WHERE id = ' " + id+" ' and login <> 'adm'";
+		String sql = "SELECT * FROM usuario WHERE id = ' " + id + " ' and login <> 'adm'";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 
@@ -205,7 +242,7 @@ public class UsuarioDao {
 			usuario.setCidade(resultSet.getString("cidade"));
 			usuario.setEstado(resultSet.getString("estado"));
 			usuario.setIbge(resultSet.getString("ibge"));
-			//usuario.setFotoBase64(resultSet.getString("fotobase64"));
+			usuario.setFotoBase64(resultSet.getString("fotobase64"));
 			usuario.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
@@ -217,29 +254,31 @@ public class UsuarioDao {
 		return null;
 
 	}
-	
+
 	/**
-	 * Metodo validarLogin()
-	 * Reponsavel por validar Login(Não pode existir um mesmo Login para dois Usuarios Diferentes)
+	 * Metodo validarLogin() Reponsavel por validar Login(Não pode existir um mesmo
+	 * Login para dois Usuarios Diferentes)
+	 * 
 	 * @param String login = Atribuido login do Usuario
 	 * @return true/false
 	 * @throws Exception
 	 */
 	public boolean validarLogin(String login) throws Exception {
-		String sql = "SELECT COUNT(1) as qtd FROM usuario WHERE login ='"+login+"'";
+		String sql = "SELECT COUNT(1) as qtd FROM usuario WHERE login ='" + login + "'";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
-		
-		if(resultSet.next()) {
+
+		if (resultSet.next()) {
 			return resultSet.getInt("qtd") <= 0;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Metodo validarSenha()
-	 * Reponsável por validar senha(Não pode existir uma mesma Senha para dois Usuarios Diferentes)
+	 * Metodo validarSenha() Reponsável por validar senha(Não pode existir uma mesma
+	 * Senha para dois Usuarios Diferentes)
+	 * 
 	 * @param String senha = Atribuido Senha do Usuario
 	 * @return true/false
 	 * @throws Exception
@@ -255,5 +294,5 @@ public class UsuarioDao {
 			return false;
 		}
 	}
-	
+
 }

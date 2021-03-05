@@ -11,7 +11,6 @@ import java.io.OutputStream;
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.tomcat.util.buf.UDecoder;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.codec.binary.Base64;
 
@@ -73,7 +71,7 @@ public class UsuarioServlet extends HttpServlet {
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				view.forward(request, response);
 
-			} else if (acao != null && acao.equals("listar")) {
+			} else if (acao != null && acao.equals("listartodos")) {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
 				request.setAttribute("usuarios", usuarioDao.readListar());
 				view.forward(request, response);
@@ -87,13 +85,13 @@ public class UsuarioServlet extends HttpServlet {
 					String tipo = request.getParameter("tipo");
 
 					if (tipo.equalsIgnoreCase("imagem")) {
-						contentType = usuarioBeans.getContentType();
 						/* Converte a base64 da imagem do banco para byte[] */
+						contentType = usuarioBeans.getContentType();
 						fileBytes = new Base64().decodeBase64(usuarioBeans.getFotoBase64());
 
 					} else if (tipo.equalsIgnoreCase("curriculo")) {
-						contentType = usuarioBeans.getContentTypeCurriculo();
 						/* Converte a base64 da imagem do banco para byte[] */
+						contentType = usuarioBeans.getContentTypeCurriculo();
 						fileBytes = new Base64().decodeBase64(usuarioBeans.getCurriculoBase64());
 					}
 
@@ -214,9 +212,10 @@ public class UsuarioServlet extends HttpServlet {
 						/*FIM MINIATURA IMAGEM*/
 
 					} else {
+						usuarioBeans.setAtualizarImage(false);
 //						usuarioBeans.setFotoBase64Miniatura(request.getParameter("fotoTemp"));
-						usuarioBeans.setFotoBase64(request.getParameter("fotoTemp"));
-						usuarioBeans.setContentType(request.getParameter("contentTypeTemp"));
+//						usuarioBeans.setFotoBase64(request.getParameter("fotoTemp"));
+//						usuarioBeans.setContentType(request.getParameter("contentTypeTemp"));
 					}
 
 					/* Processar o PDF */
@@ -227,10 +226,12 @@ public class UsuarioServlet extends HttpServlet {
 								.encodeBase64String(converteStreamParaByte(curriculoPdf.getInputStream()));
 						usuarioBeans.setCurriculoBase64(curriculoBase64);
 						usuarioBeans.setContentTypeCurriculo(curriculoPdf.getContentType());
+						
 					} else {
+						usuarioBeans.setAtualizarPdf(false);
 
-						usuarioBeans.setCurriculoBase64(request.getParameter("curriculoTemp"));
-						usuarioBeans.setContentTypeCurriculo(request.getParameter("contentTypeTempCurriculo"));
+//						usuarioBeans.setCurriculoBase64(request.getParameter("curriculoTemp"));
+//						usuarioBeans.setContentTypeCurriculo(request.getParameter("contentTypeTempCurriculo"));
 					}
 				}
 
@@ -313,7 +314,7 @@ public class UsuarioServlet extends HttpServlet {
 	 * @return
 	 * @throws Exception
 	 */
-	private static byte[] converteStreamParaByte(InputStream imagem) throws Exception {
+	private byte[] converteStreamParaByte(InputStream imagem) throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int reads = imagem.read();

@@ -10,12 +10,12 @@
 <body>
 	<div class="page-wrapper-lb bg-gra-02 p-t-130 p-b-100 font-poppins-lb">
 		<div class="wrapper wrapper--w680">
-			<h1>Seja Bem Vindo ao Sistema JSP</h1>
+			<h1>Seja Bem Vindo ao Sistema Didático JSP</h1>
 		</div>
  			<table class="wrapper">
 				<tr>
-					<td><a href="salvarUsuario?acao=listar"><img src="resources/img/user.png" title="CADASTRAR USUARIOS" width="200px"></a></td>
-					<td><a href="salvarProduto?acao=listar"><img src="resources/img/buy.png" title="CADASTRAR PRODUTOS" width="200px"></a></td>
+					<td><a href="salvarUsuario?acao=listartodos"><img src="resources/img/user.png" title="CADASTRAR USUARIOS" width="200px"></a></td>
+					<td><a href="salvarProduto?acao=listartodos"><img src="resources/img/buy.png" title="CADASTRAR PRODUTOS" width="200px"></a></td>
 				</tr>
 				<tr>
 					<td>Cadastro de Usuarios</td>
