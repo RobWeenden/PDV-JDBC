@@ -14,7 +14,7 @@
 <body>
 	<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 ">
 		<a href="acessoliberado.jsp"><img src="resources/img/back.png" title="RETORNAR" width="50px"></a>
-		<a href="index.jsp"><img src="resources/img/exit.png" title="HOME" width="50px"></a>
+		<a href="LoginServlet"><img src="resources/img/exit.png" title="HOME" width="50px"></a>
 		<div class="input-group">
 			<h2 class="title">CADASTRAR USUARIO</h2>
 			<div class="wrapper">

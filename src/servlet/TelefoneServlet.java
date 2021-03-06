@@ -42,7 +42,7 @@ public class TelefoneServlet extends HttpServlet {
 		try {
 			String acao = request.getParameter("acao");
 
-			if (acao.equalsIgnoreCase("addFone")) {
+			if (acao != null && acao.equalsIgnoreCase("addFone")) {
 
 				String user = request.getParameter("users");
 
@@ -56,7 +56,7 @@ public class TelefoneServlet extends HttpServlet {
 				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
 				view.forward(request, response);
 
-			} else if (acao.endsWith("deleteFone")) {
+			} else if (acao != null && acao.endsWith("deleteFone")) {
 
 				UsuarioBeans usuarioBeans = (UsuarioBeans) request.getSession().getAttribute("userEscolhido");
 				String foneId = request.getParameter("foneId");
@@ -66,6 +66,12 @@ public class TelefoneServlet extends HttpServlet {
 				request.setAttribute("telefones", telefoneDao.readTel(usuarioBeans.getId()));
 				request.setAttribute("msg", "Removido com Sucesso!!");
 				view.forward(request, response);
+				
+			}else {
+				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
+				request.setAttribute("usuarios", usuarioDao.readListar());
+				view.forward(request, response);
+
 			}
 
 		} catch (Exception e) {

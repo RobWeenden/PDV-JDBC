@@ -38,13 +38,13 @@
                         </tr>
                         <tr>
                             <td>QUANTIDADE:</td>
-                            <td><input type="number" name="quantidade" id="quantidade"
-                                    class="input--style-4"  value="${prod.quantidade}" maxlength="10"/></td>
+                            <td><input type="text" name="quantidade" id="quantidade"
+                                    class="input--style-4"  value="${prod.quantidade}" maxlength="7"/></td>
                         </tr>
                         <tr>
                             <td>VALOR:</td>
                             <td><input type="text" name="valor" id="valor" data-thousands="." data-decimal="," autocomplete="off"
-                                    class="input--style-4" value="${prod.valorEmTexto}" maxlength="20" /></td>
+                                    class="input--style-4" value="${prod.valorEmTexto}" maxlength="8" /></td>
                         </tr>
                         <tr>
 
@@ -96,6 +96,8 @@
         </table>
     </div>
     <script type="text/javascript">
+    
+    //FUNÇÃO PARA VALIDAR CEP DO USUARIO
         function validarCampos() {
             if (document.getElementById("nome").value == '') {
                 alert("INFORME O NOME DO PRODUTO!");
@@ -113,7 +115,14 @@
         //FUNÇÃO MASKMONEY - JQUERY
         $(function() {
 			$('#valor').maskMoney();
-		})
+		});
+        
+        //FUNÇÃO PARA LIMITAR VALOR NUMERICO NO INPUT
+        $(document).ready(function() {
+        	  $("#quantidade").keyup(function() {
+        	      $("#quantidade").val(this.value.match(/[0-9]*/));
+        	  });
+        	});
 
     </script>
 </body>

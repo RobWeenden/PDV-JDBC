@@ -17,7 +17,7 @@
             <div class="wrap-login100">
                 <form action="LoginServlet" method="post" class="login100-form">
                     <div class="login100-form-title">
-                        <h2>ACESSO DO USUARIO</h2>
+                        <h2>ACESSO USUARIO</h2>
                     </div>
 
                     <div class="wrap-input100-input">

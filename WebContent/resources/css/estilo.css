@@ -1,4 +1,7 @@
-@charset "ISO-8859-1";
+/*//////////////////////////////////////////////////////////////////
+[ FONT ]*/
+
+  
   /*//////////////////////////////////////////////////////////////////
   [ RESTYLE TAG ]*/
   
@@ -62,6 +65,11 @@
   input[type="number"] {
       -moz-appearance: textfield;
       appearance: none;
+      -webkit-appearance: none;
+  }
+  
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
   }
   
@@ -236,14 +244,47 @@ input[type=text]:hover, input[type=password]:hover{
     width: 90%;
     transition: all 0.9s;
   }
-    
-  @media (max-width: 992px) {
-       /*//////////////////////////////////////////////////////////////////
-  [ login ]*/
-  .limiter{
-
+  
+  @media (max-width: 1580px) {
+    /*//////////////////////////////////////////////////////////////////
+[ login ]*/
+.login100-form-title h2{
+ font-size: 25pt;
+}
+.container-login100 {
+width: 100%;
+float: right;
 
 }
+.wrap-login100{
+width: 40%;
+margin: 0 auto;
+}
+}
+
+@media (max-width: 1395px) {
+       /*//////////////////////////////////////////////////////////////////
+  [ login ]*/
+  .login100-form-title h2{
+    font-size: 25pt;
+  }
+.container-login100 {
+  width: 100%;
+  float: right;
+
+}
+.wrap-login100{
+  width: 40%;
+  margin: 0 auto;
+}
+  }
+
+  @media (max-width: 1080px) {
+       /*//////////////////////////////////////////////////////////////////
+  [ login ]*/
+  .login100-form-title h2{
+    font-size: 25pt;
+  }
 .container-login100 {
   width: 100%;
   float: right;
@@ -262,9 +303,8 @@ input[type=text]:hover, input[type=password]:hover{
    
        /*//////////////////////////////////////////////////////////////////
   [ login ]*/
-  .limiter{
-
-
+  .login100-form-title h2{
+    font-size: 25pt;
   }
   .container-login100 {
     width: 100%;
