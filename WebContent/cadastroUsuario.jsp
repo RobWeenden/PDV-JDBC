@@ -134,7 +134,7 @@
 					<td><c:out value="${users.estado}"></c:out></td>
 					<td><c:out value="${users.ibge}"></c:out></td>
 					<td><a href="salvarUsuario?acao=update&users=${users.id}"><img src="resources/img/editi.png" width="60px" alt="Atualizar Usuario"></a></td>
-					<td><a href="salvarUsuario?acao=delete&users=${users.id}"><img src="resources/img/del.png" width="60px" alt="Deletar usuario"></a></td>
+					<td><a href="salvarUsuario?acao=delete&users=${users.id}" onclick="return confirm('Deseja Excluir este Usuario ?');"><img src="resources/img/del.png" width="60px" alt="Deletar usuario"></a></td>
 					<td><a href="salvarTelefones?acao=addFone&users=${users.id}"><img src="resources/img/phone.png" width="60px" alt="Adicionar Telefones"></a></td>
 				</tr>
 			</c:forEach>

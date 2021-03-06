@@ -89,7 +89,7 @@
                     </td>
                     <td><a href="salvarProduto?acao=update&prod=${prod.id}"><img src="resources/img/editi.png"
                                 width="60px"></a></td>
-                    <td><a href="salvarProduto?acao=delete&prod=${prod.id}"><img src="resources/img/del.png"
+                    <td><a href="salvarProduto?acao=delete&prod=${prod.id}" onclick="return confirm('Deseja Excluir este Produto ?');"><img src="resources/img/del.png"
                                 width="60px"></a></td>
                 </tr>
             </c:forEach>

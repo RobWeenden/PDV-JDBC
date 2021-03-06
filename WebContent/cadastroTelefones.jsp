@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- Adicionando JQuery -->
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" type="text/css" href="resources/css/mainUsers.css" media="all">
 <title>CADASTRAR TELEFONE</title>
 </head>
@@ -24,7 +27,7 @@
 						</tr>
 						<tr>
 							<td>NÚMERO:</td>
-							<td><input type="text" name="numero" id="numero" class="input--style-4" value="${fone.numero}"></td>
+							<td><input type="text" name="numero" id="numero" class="input--style-4" value="${fone.numero}" maxlength="11"></td>
 							<td>TIPO:</td>
 							
 							<td>
@@ -64,7 +67,7 @@
 					<td><c:out value="${fone.id}"></c:out></td>
 					<td><c:out value="${fone.numero}"></c:out></td>
 					<td><c:out value="${fone.tipo}"></c:out></td>
-					<td><a href="salvarTelefones?acao=deleteFone&foneId=${fone.id}"><img src="resources/img/del.png" width="60px"></a></td>
+					<td><a href="salvarTelefones?acao=deleteFone&foneId=${fone.id}" onclick="return confirm('Deseja Excluir este Telefone ?');"><img src="resources/img/del.png" width="60px"></a></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -81,6 +84,13 @@
 			} 
 			return true;
 		}
+		
+		 //FUNÇÃO PARA LIMITAR VALOR NUMERICO NO INPUT
+        $(document).ready(function() {
+        	  $("#numero").keyup(function() {
+        	      $("#numero").val(this.value.match(/[0-9]*/));
+        	  });
+        	});
 	</script>
 </body>
 </html>

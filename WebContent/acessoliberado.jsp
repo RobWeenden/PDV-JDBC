@@ -9,6 +9,7 @@
 </head>
 <body>
 	<div class="page-wrapper-lb bg-gra-02 p-t-130 p-b-100 font-poppins-lb">
+	<a href="LoginServlet"><img src="resources/img/exit.png" title="HOME" style="width:50px; float:left;"></a>
 		<div class="wrapper wrapper--w680">
 			<h1>Seja Bem Vindo ao Sistema Didático JSP</h1>
 		</div>
@@ -21,12 +22,7 @@
 					<td>Cadastro de Usuarios</td>
 					<td>Cadastro de Produtos</td>
 				</tr>
-				<tr>
-					<td colspan="2"><a href="index.jsp"><img src="resources/img/home.png" title="HOME" width="80px"></a></td>
-				</tr>
-				<tr>
-					<td colspan="2">Home</td>
-				</tr>
+
 			</table>
 			</div>
 
