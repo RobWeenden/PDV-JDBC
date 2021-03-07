@@ -40,7 +40,7 @@ public class UsuarioDao {
 		try {
 
 			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, "
-					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo, fotobase64miniatura) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo, fotobase64miniatura, ativo, sexo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getLogin());
 			statement.setString(2, usuario.getSenha());
@@ -57,6 +57,8 @@ public class UsuarioDao {
 			statement.setString(13, usuario.getCurriculoBase64());
 			statement.setString(14, usuario.getContentTypeCurriculo());
 			statement.setString(15, usuario.getFotoBase64Miniatura());
+			statement.setBoolean(16, usuario.isAtivo());
+			statement.setString(17, usuario.getSexo());
 			statement.execute();
 
 			connection.commit();
@@ -97,11 +99,13 @@ public class UsuarioDao {
 			usuarios.setCidade(resultSet.getString("cidade"));
 			usuarios.setEstado(resultSet.getString("estado"));
 			usuarios.setIbge(resultSet.getString("ibge"));
-			usuarios.setFotoBase64(resultSet.getString("fotobase64"));
+			//usuarios.setFotoBase64(resultSet.getString("fotobase64"));
 			usuarios.setContentType(resultSet.getString("contenttype"));
 			usuarios.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
 			usuarios.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuarios.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
+			usuarios.setAtivo(resultSet.getBoolean("ativo"));
+			usuarios.setSexo(resultSet.getString("sexo"));
 			usuarioLista.add(usuarios);
 		}
 
@@ -152,7 +156,7 @@ public class UsuarioDao {
 			StringBuilder sql = new StringBuilder();
 			sql.append(" UPDATE usuario SET login = ?, senha = ?, nome = ?, telefone  = ");
 			sql.append("?, cep = ?, rua = ?, bairro = ?,cidade = ?, ");
-			sql.append(" estado = ?, ibge = ? ");
+			sql.append(" estado = ?, ibge = ?, ativo = ?, sexo = ? ");
 
 			if (usuarioUpdate.isAtualizarImage()) {
 				sql.append(", fotobase64 = ?, contenttype = ? ");
@@ -179,29 +183,31 @@ public class UsuarioDao {
 			statement.setString(8, usuarioUpdate.getCidade());
 			statement.setString(9, usuarioUpdate.getEstado());
 			statement.setString(10, usuarioUpdate.getIbge());
+			statement.setBoolean(11, usuarioUpdate.isAtivo());
+			statement.setString(12, usuarioUpdate.getSexo());
 
 			if (usuarioUpdate.isAtualizarImage()) {
-				statement.setString(11, usuarioUpdate.getFotoBase64());
-				statement.setString(12, usuarioUpdate.getContentType());
+				statement.setString(13, usuarioUpdate.getFotoBase64());
+				statement.setString(14, usuarioUpdate.getContentType());
 			}
 
 			if (usuarioUpdate.isAtualizarPdf()) {
 
 				if (usuarioUpdate.isAtualizarPdf() && !usuarioUpdate.isAtualizarImage()) {
-					statement.setString(11, usuarioUpdate.getCurriculoBase64());
-					statement.setString(12, usuarioUpdate.getContentTypeCurriculo());
-				} else {
 					statement.setString(13, usuarioUpdate.getCurriculoBase64());
 					statement.setString(14, usuarioUpdate.getContentTypeCurriculo());
+				} else {
+					statement.setString(15, usuarioUpdate.getCurriculoBase64());
+					statement.setString(16, usuarioUpdate.getContentTypeCurriculo());
 				}
 			} else {
 
 				if (usuarioUpdate.isAtualizarImage()) {
-					statement.setString(13, usuarioUpdate.getFotoBase64Miniatura());
+					statement.setString(15, usuarioUpdate.getFotoBase64Miniatura());
 				}
 			}
 			if (usuarioUpdate.isAtualizarImage() && usuarioUpdate.isAtualizarPdf()) {
-				statement.setString(15, usuarioUpdate.getFotoBase64Miniatura());
+				statement.setString(17, usuarioUpdate.getFotoBase64Miniatura());
 			}
 			statement.executeUpdate();
 
@@ -247,6 +253,8 @@ public class UsuarioDao {
 			usuario.setContentType(resultSet.getString("contenttype"));
 			usuario.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
+			usuario.setAtivo(resultSet.getBoolean("ativo"));
+			usuario.setSexo(resultSet.getString("sexo"));
 
 			return usuario;
 		}

@@ -24,6 +24,8 @@ public class UsuarioBeans {
 	private String curriculoBase64;
 	private String contentTypeCurriculo;
 	private String tempFotoUser;
+	private boolean ativo;
+	private String sexo;
 
 	
 	
@@ -40,6 +42,20 @@ public class UsuarioBeans {
 		tempFotoUser = "data:" + contentType + ";base64, " + fotoBase64;
 		return tempFotoUser;
 	}
+	
+	
+
+	public String getSexo() {
+		return sexo;
+	}
+
+
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+
 
 	public String getFotoBase64Miniatura() {
 		return fotoBase64Miniatura;
@@ -183,6 +199,14 @@ public class UsuarioBeans {
 
 	public void setAtualizarPdf(boolean atualizarPdf) {
 		this.atualizarPdf = atualizarPdf;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 	
 	

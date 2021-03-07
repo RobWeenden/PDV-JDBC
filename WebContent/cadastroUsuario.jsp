@@ -1,3 +1,4 @@
+<%@page import="beans.UsuarioBeans"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -65,11 +66,73 @@
 
 						</tr>
 						<tr>
-							<td colspan="2"></td>
+							<td>ATIVAR:</td>
+							<td>
+							
+							<input type="checkbox" name="ativo" id="ativo" class="input--style-4 "  
+							<% 
+							
+								if(request.getAttribute("users") != null){
+									UsuarioBeans usuarioBeans = (UsuarioBeans) request.getAttribute("users");
+									
+									if(usuarioBeans.isAtivo()){
+										out.print(" ");
+										out.print("checked=\"checked\"");
+										out.print(" ");
+									}
+								}
+							
+							
+							%>>
+							
+							</td>
 							<td>Curriculo:</td>
 							<td>
 								<input type="file" name="curriculo" id="curriculo"  class="input--style-4 ">
 							
+							</td>
+						
+						</tr>
+						<tr>
+							<td>SEXO</td>
+							<td>
+							<input type="radio" name="sexo" id="sexoMasc" value="masculino" 
+							
+							<%
+							if(request.getAttribute("users") != null){
+								
+								UsuarioBeans usuarioBeans = (UsuarioBeans) request.getAttribute("users");
+								if(usuarioBeans.getSexo().equalsIgnoreCase("masculino")){
+									out.print(" ");
+									out.print("checked=\"checked\"");
+									out.print(" ");
+								}
+								
+							}
+							
+							%>
+							
+							class="input--style-4 ">&nbsp;Masculino<br/>
+							
+							<input type="radio" name="sexo" id="sexoFem" value="feminino"
+							
+								<%
+							if(request.getAttribute("users") != null){
+								
+								UsuarioBeans usuarioBeans = (UsuarioBeans) request.getAttribute("users");
+								if(usuarioBeans.getSexo().equalsIgnoreCase("feminino")){
+									out.print(" ");
+									out.print("checked=\"checked\"");
+									out.print(" ");
+								}
+								
+							}
+							
+							%>
+							
+							
+							
+							 class="input--style-4 ">&nbsp;Feminino&nbsp;&nbsp;
 							</td>
 						
 						</tr>

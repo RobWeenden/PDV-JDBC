@@ -159,6 +159,7 @@ public class UsuarioServlet extends HttpServlet {
 				String cidade = request.getParameter("cidade");
 				String estado = request.getParameter("estado");
 				String ibge = request.getParameter("ibge");
+				String sexo = request.getParameter("sexo");
 
 				UsuarioBeans usuarioBeans = new UsuarioBeans();
 				usuarioBeans.setId((id != null && !id.isEmpty()) ? Long.parseLong(id) : null);
@@ -172,6 +173,14 @@ public class UsuarioServlet extends HttpServlet {
 				usuarioBeans.setCidade(cidade);
 				usuarioBeans.setEstado(estado);
 				usuarioBeans.setIbge(ibge);
+				usuarioBeans.setSexo(sexo);
+				
+				if(request.getParameter("ativo") != null && request.getParameter("ativo").equalsIgnoreCase("on")) {
+					usuarioBeans.setAtivo(true);
+					
+				}else{
+					usuarioBeans.setAtivo(false);
+				}
 
 				/*
 				 * Inicio File upload de imagens e pdf
