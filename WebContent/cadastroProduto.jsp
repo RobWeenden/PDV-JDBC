@@ -1,3 +1,4 @@
+<%@page import="beans.CategoriaBeans"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 <!--=========================DECLARAÇÃO PARA INCORPORAR OS LOOPS===========================-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -45,6 +46,26 @@
                             <td>VALOR:</td>
                             <td><input type="text" name="valor" id="valor" data-thousands="." data-decimal="," autocomplete="off"
                                     class="input--style-4" value="${prod.valorEmTexto}" maxlength="8" /></td>
+                        </tr>
+                        <tr>
+                        	<td>CATEGORIA:</td>
+                        	<td>
+                        		<select id="categorias" name="categoria_id" class="input--style-4" style="width:97%;">
+                        		<c:forEach items="${categorias}" var="categoria">
+                        			<option value="${categoria.id}" id="${categoria.id}"
+                        				<c:if test="${categoria.id == prod.categoria_id}">
+                        				<c:out value="selected=selected" />
+                        				
+                        				</c:if>
+                        			
+                        			><c:out value="${categoria.nome}"></c:out></option>
+                        		</c:forEach>
+                        		
+                        		
+                        		</select>
+                        	
+                        	
+                        	</td>
                         </tr>
                         <tr>
 

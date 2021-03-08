@@ -37,32 +37,31 @@ public class ProdutoServlet extends HttpServlet {
 
 		String acao = request.getParameter("acao");
 		String produto = request.getParameter("prod");
-
+		
+		RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
+		
 		try {
 			if (acao != null && acao.equalsIgnoreCase("update")) {
 				ProdutoBeans produtoBeans = produtoDao.consultarProd(produto);
-				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
+				
 				request.setAttribute("prod", produtoBeans);
-				view.forward(request, response);
 
 			} else if (acao != null && acao.equalsIgnoreCase("delete")) {
 				produtoDao.deleteProd(produto);
-				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
+				
 				request.setAttribute("msg", "Deletado com sucesso!!!");
 				request.setAttribute("produtos", produtoDao.readProd());
-				view.forward(request, response);
 
 			} else if (acao != null && acao.equalsIgnoreCase("listar")) {
 
-				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
 				request.setAttribute("produtos", produtoDao.readProd());
-				view.forward(request, response);
 				
 			}else {
-				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
 				request.setAttribute("produtos", produtoDao.readProd());
-				view.forward(request, response);
+				
 			}
+			request.setAttribute("categorias", produtoDao.listCategoria());
+			view.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,10 +89,12 @@ public class ProdutoServlet extends HttpServlet {
 			String nome = request.getParameter("nome");
 			String quantidade = request.getParameter("quantidade");
 			String valor = request.getParameter("valor");
+			String categoria = request.getParameter("categoria_id");
 
 			ProdutoBeans produtoBeans = new ProdutoBeans();
 			produtoBeans.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			produtoBeans.setNome(nome);
+			produtoBeans.setCategoria_id(Long.parseLong(categoria));
 
 			try {
 
@@ -157,9 +158,11 @@ public class ProdutoServlet extends HttpServlet {
 				/*
 				 * if(!podeInserir) { request.setAttribute("produtos", produtoBeans); }
 				 */
+				
 
 				RequestDispatcher view = request.getRequestDispatcher("cadastroProduto.jsp");
 				request.setAttribute("produtos", produtoDao.readProd());
+				request.setAttribute("categorias", produtoDao.listCategoria());
 				view.forward(request, response);
 
 			} catch (Exception e) {
