@@ -66,31 +66,73 @@
 
 						</tr>
 						<tr>
-							<td>ATIVAR:</td>
+						
+							<td>PERFIL:</td>
 							<td>
-							
-							<input type="checkbox" name="ativo" id="ativo" class="input--style-4 "  
-							<% 
-							
+								<select id="perfil" name="perfil"  class="input--style-4 ">
+								<option value="não_informado">[---SELECIONE----]</option>
+								
+								<option value="administrador"
+								<%
 								if(request.getAttribute("users") != null){
-									UsuarioBeans usuarioBeans = (UsuarioBeans) request.getAttribute("users");
+									UsuarioBeans usuarioBeans = (UsuarioBeans)request.getAttribute("users");
 									
-									if(usuarioBeans.isAtivo()){
+									if(usuarioBeans.getPerfil().equalsIgnoreCase("administrador")){
 										out.print(" ");
-										out.print("checked=\"checked\"");
+										out.print("selected=\"selected\"");
 										out.print(" ");
 									}
 								}
-							
-							
-							%>>
-							
+									%>>Administrador</option>
+									
+								<option value="secretario(a)"
+								<%
+								if(request.getAttribute("users") != null){
+									UsuarioBeans usuarioBeans = (UsuarioBeans)request.getAttribute("users");
+									
+									if(usuarioBeans.getPerfil().equalsIgnoreCase("secretario(a)")){
+										out.print(" ");
+										out.print("selected=\"selected\"");
+										out.print(" ");
+									}
+								}
+									%>>Secretario(a)</option>
+									
+								<option value="gerente"
+								<%
+								if(request.getAttribute("users") != null){
+									UsuarioBeans usuarioBeans = (UsuarioBeans)request.getAttribute("users");
+									
+									if(usuarioBeans.getPerfil().equalsIgnoreCase("gerente")){
+										out.print(" ");
+										out.print("selected=\"selected\"");
+										out.print(" ");
+									}
+								}
+									%>>Gerente</option>
+									
+								<option value="recursos_humanos"
+								<%
+								if(request.getAttribute("users") != null){
+									UsuarioBeans usuarioBeans = (UsuarioBeans)request.getAttribute("users");
+									
+									if(usuarioBeans.getPerfil().equalsIgnoreCase("recursos_humanos")){
+										out.print(" ");
+										out.print("selected=\"selected\"");
+										out.print(" ");
+									}
+								}
+									%>>RH</option>
+								
+								</select>
 							</td>
+						
 							<td>Curriculo:</td>
 							<td>
 								<input type="file" name="curriculo" id="curriculo"  class="input--style-4 ">
 							
 							</td>
+
 						
 						</tr>
 						<tr>
@@ -99,7 +141,7 @@
 							<input type="radio" name="sexo" id="sexoMasc" value="masculino" 
 							
 							<%
-							if(request.getAttribute("users") != null){
+								if(request.getAttribute("users") != null){
 								
 								UsuarioBeans usuarioBeans = (UsuarioBeans) request.getAttribute("users");
 								if(usuarioBeans.getSexo().equalsIgnoreCase("masculino")){
@@ -130,9 +172,28 @@
 							
 							%>
 							
-							
-							
 							 class="input--style-4 ">&nbsp;Feminino&nbsp;&nbsp;
+							</td>
+							
+							<td>ATIVAR:</td>
+							<td>
+							
+							<input type="checkbox" name="ativo" id="ativo" class="input--style-4 "
+							
+								<%
+								if(request.getAttribute("users") != null){
+								
+								UsuarioBeans usuarioBeans = (UsuarioBeans) request.getAttribute("users");
+								if(usuarioBeans.isAtivo()){
+									out.print(" ");
+									out.print("checked=\"checked\"");
+									out.print(" ");
+								}
+								
+							}
+							
+							%>>
+							
 							</td>
 						
 						</tr>
@@ -147,6 +208,24 @@
 			</div>
 		</div>
 	</div>
+	
+  <div class="page-wrapper-descrisao bg-gra-02 p-t-130 p-b-100 ">
+        <div class="input-group">
+            <form action="servletPesquisa" method="post" >
+
+                <table class="tb_Users table">
+                    <tr>
+                        <td>DESCRIÇÃO:</td>
+                        <td><input type="text" name="descricaoconsulta" id="descricaoconsulta"
+                                class="input--style-4" style="width:140%"></td>
+                        <td><input type="submit" value="PESQUISAR" class="input--style-4 input--style-4-56" ></td>
+
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+	
 	<div class="page-wrapper page-wrapper-lb bg-gra-02 p-t-130-1 p-b-100 font-poppins-tb">
 		<h2 class="title-tb-msg">${msg}</h2>
 		<h2 class="title">USUARIOS CADASTRADOS</h2>

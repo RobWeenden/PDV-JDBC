@@ -59,7 +59,7 @@ public class UsuarioServlet extends HttpServlet {
 			if (acao != null && acao.equalsIgnoreCase("update")) {
 				UsuarioBeans userUpdate = usuarioDao.consultar(users);
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				request.setAttribute("users", userUpdate);
 				view.forward(request, response);
 
@@ -68,12 +68,12 @@ public class UsuarioServlet extends HttpServlet {
 
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
 				request.setAttribute("msg", "Deletado com Sucesso!!");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				view.forward(request, response);
 
 			} else if (acao != null && acao.equals("listartodos")) {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				view.forward(request, response);
 
 			} else if (acao != null && acao.equalsIgnoreCase("download")) {
@@ -115,7 +115,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 			}else {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("cadastroUsuario.jsp");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				dispatcher.forward(request, response);
 
 			}
@@ -140,7 +140,7 @@ public class UsuarioServlet extends HttpServlet {
 		if (acao != null && acao.equalsIgnoreCase("reset")) {
 			try {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				view.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -160,6 +160,7 @@ public class UsuarioServlet extends HttpServlet {
 				String estado = request.getParameter("estado");
 				String ibge = request.getParameter("ibge");
 				String sexo = request.getParameter("sexo");
+				String perfil = request.getParameter("perfil");
 
 				UsuarioBeans usuarioBeans = new UsuarioBeans();
 				usuarioBeans.setId((id != null && !id.isEmpty()) ? Long.parseLong(id) : null);
@@ -174,6 +175,7 @@ public class UsuarioServlet extends HttpServlet {
 				usuarioBeans.setEstado(estado);
 				usuarioBeans.setIbge(ibge);
 				usuarioBeans.setSexo(sexo);
+				usuarioBeans.setPerfil(perfil);
 				
 				if(request.getParameter("ativo") != null && request.getParameter("ativo").equalsIgnoreCase("on")) {
 					usuarioBeans.setAtivo(true);
@@ -306,7 +308,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 
 				RequestDispatcher dispatcher = request.getRequestDispatcher("cadastroUsuario.jsp");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				dispatcher.forward(request, response);
 
 			} catch (Exception e) {

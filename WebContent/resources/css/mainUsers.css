@@ -263,6 +263,31 @@
     -moz-transition: all 0.4s ease;
 
   }
+  
+  .input--style-5{
+  	width: 140%;
+
+  
+  }
+
+  .input--style-4-56{
+    padding: 3px 0;
+    margin: 3px;
+    line-height: 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #666;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+
+  }
+  .input--style-4-56:hover{
+    background-color: rgba(102, 21, 134, 0.993);
+    color: #fff;
+    font-weight: bold;
+  }
 
   /**=======INPUT DO PLACEHOLDER PARA OS DIFERENTES BROWSERS=======**/
   .input--style-4::-webkit-input-placeholder {/*nome no fundo dos inputs instrução ao usuario*/

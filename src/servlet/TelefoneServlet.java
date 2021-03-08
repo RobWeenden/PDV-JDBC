@@ -69,7 +69,7 @@ public class TelefoneServlet extends HttpServlet {
 				
 			}else {
 				RequestDispatcher view = request.getRequestDispatcher("cadastroUsuario.jsp");
-				request.setAttribute("usuarios", usuarioDao.readListar());
+				request.setAttribute("usuarios", usuarioDao.readAllUsers());
 				view.forward(request, response);
 
 			}

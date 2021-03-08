@@ -39,8 +39,11 @@ public class UsuarioDao {
 	public void create(UsuarioBeans usuario) {
 		try {
 
-			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, "
-					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo, fotobase64miniatura, ativo, sexo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO usuario (login, senha, nome, telefone, cep, "
+					+ "rua, bairro, cidade, estado, ibge, "
+					+ "fotobase64, contenttype, curriculobase64, contenttypecurriculo, "
+					+ "fotobase64miniatura, ativo, sexo, perfil)"
+					+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, usuario.getLogin());
 			statement.setString(2, usuario.getSenha());
@@ -59,6 +62,7 @@ public class UsuarioDao {
 			statement.setString(15, usuario.getFotoBase64Miniatura());
 			statement.setBoolean(16, usuario.isAtivo());
 			statement.setString(17, usuario.getSexo());
+			statement.setString(18, usuario.getPerfil());
 			statement.execute();
 
 			connection.commit();
@@ -73,16 +77,36 @@ public class UsuarioDao {
 	}
 
 	/**
-	 * Metodo readListar() Responsavel Por listar(SELECT * FROM) todos os usarios no
-	 * sistema
-	 * 
-	 * @return uma lista de usuarios da Classe UsuarioBeans
+	 * Metodo searchUser() Responsavel em Lista, buscar Somente usuario contido no DB,
+	 * Onde a coluna nome contenha o mesmo caracter informado na String descricaoconsulta
+	 * @param String descricaoconsulta = string de busca no DB conforme caracter
+	 * @return readList(sql) = retorna uma lista do metodo readList()
 	 * @throws Exception
 	 */
-	public List<UsuarioBeans> readListar() throws Exception {
-
-		List<UsuarioBeans> usuarioLista = new ArrayList<UsuarioBeans>();
+	public List<UsuarioBeans> searchUser(String descricaoconsulta) throws Exception{
+	  String sql = "SELECT * FROM usuario where login <> 'adm' and nome like '%"+descricaoconsulta+"%'";
+	  return readList(sql);
+	  }
+	 	
+	/**
+	 * Método readAllUsers() Responsavel de ler,buscar (SELET * FROM)todos os 
+	 * Usuarios contido no DB
+	 * @return readList(sql) = retorna uma lista do metodo readList()
+	 * @throws Exception
+	 */
+	public List<UsuarioBeans> readAllUsers() throws Exception {
 		String sql = "SELECT * FROM usuario where login <> 'adm'";
+		return readList(sql);
+	}
+
+	/**
+	 * Metodo readList() Responsavel Por preparar a lista de Usuarios
+	 * @param String sql
+	 * @return List<UsuarioBeans> usuarioLista = retorna lista dos Usuario do Objeto UsuarioBeans
+	 * @throws SQLException
+	 */
+	private List<UsuarioBeans> readList(String sql) throws SQLException {
+		List<UsuarioBeans> usuarioLista = new ArrayList<UsuarioBeans>();
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet resultSet = statement.executeQuery();
 
@@ -106,13 +130,12 @@ public class UsuarioDao {
 			usuarios.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 			usuarios.setAtivo(resultSet.getBoolean("ativo"));
 			usuarios.setSexo(resultSet.getString("sexo"));
+			usuarios.setPerfil(resultSet.getString("perfil"));
 			usuarioLista.add(usuarios);
 		}
-
 		return usuarioLista;
-
 	}
-
+	
 	/**
 	 * Metodo delete() Responsavel por fazer a Exclusão(DELETE) no DB
 	 * 
@@ -156,7 +179,7 @@ public class UsuarioDao {
 			StringBuilder sql = new StringBuilder();
 			sql.append(" UPDATE usuario SET login = ?, senha = ?, nome = ?, telefone  = ");
 			sql.append("?, cep = ?, rua = ?, bairro = ?,cidade = ?, ");
-			sql.append(" estado = ?, ibge = ?, ativo = ?, sexo = ? ");
+			sql.append(" estado = ?, ibge = ?, ativo = ?, sexo = ?, perfil = ? ");
 
 			if (usuarioUpdate.isAtualizarImage()) {
 				sql.append(", fotobase64 = ?, contenttype = ? ");
@@ -185,29 +208,30 @@ public class UsuarioDao {
 			statement.setString(10, usuarioUpdate.getIbge());
 			statement.setBoolean(11, usuarioUpdate.isAtivo());
 			statement.setString(12, usuarioUpdate.getSexo());
+			statement.setString(13, usuarioUpdate.getPerfil());
 
 			if (usuarioUpdate.isAtualizarImage()) {
-				statement.setString(13, usuarioUpdate.getFotoBase64());
-				statement.setString(14, usuarioUpdate.getContentType());
+				statement.setString(14, usuarioUpdate.getFotoBase64());
+				statement.setString(15, usuarioUpdate.getContentType());
 			}
 
 			if (usuarioUpdate.isAtualizarPdf()) {
 
 				if (usuarioUpdate.isAtualizarPdf() && !usuarioUpdate.isAtualizarImage()) {
-					statement.setString(13, usuarioUpdate.getCurriculoBase64());
-					statement.setString(14, usuarioUpdate.getContentTypeCurriculo());
+					statement.setString(14, usuarioUpdate.getCurriculoBase64());
+					statement.setString(15, usuarioUpdate.getContentTypeCurriculo());
 				} else {
-					statement.setString(15, usuarioUpdate.getCurriculoBase64());
-					statement.setString(16, usuarioUpdate.getContentTypeCurriculo());
+					statement.setString(16, usuarioUpdate.getCurriculoBase64());
+					statement.setString(17, usuarioUpdate.getContentTypeCurriculo());
 				}
 			} else {
 
 				if (usuarioUpdate.isAtualizarImage()) {
-					statement.setString(15, usuarioUpdate.getFotoBase64Miniatura());
+					statement.setString(16, usuarioUpdate.getFotoBase64Miniatura());
 				}
 			}
 			if (usuarioUpdate.isAtualizarImage() && usuarioUpdate.isAtualizarPdf()) {
-				statement.setString(17, usuarioUpdate.getFotoBase64Miniatura());
+				statement.setString(18, usuarioUpdate.getFotoBase64Miniatura());
 			}
 			statement.executeUpdate();
 
@@ -255,6 +279,7 @@ public class UsuarioDao {
 			usuario.setContentTypeCurriculo(resultSet.getString("contenttypecurriculo"));
 			usuario.setAtivo(resultSet.getBoolean("ativo"));
 			usuario.setSexo(resultSet.getString("sexo"));
+			usuario.setPerfil(resultSet.getString("perfil"));
 
 			return usuario;
 		}
